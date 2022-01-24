@@ -1,0 +1,60 @@
+id: ua_gc_paragraph
+label: Test paragraph
+migration_group: gc_migration
+migration_tags:
+  - Quickstart Content Migration
+status: true
+
+source:
+  plugin: d7_node
+  node_type: uagc_page
+
+process:
+  destination_bundle:
+    plugin: text_format_recognizer
+    format: 'az_standard'
+    source: body
+    required_module: 'az_paragraphs_html'
+    passed: 'az_text'
+    failed: 'az_html'
+    module_missing: 'az_text'
+
+  type:
+    -
+      plugin: array_shift
+      source: '@destination_bundle'
+    -
+      plugin: default_value
+      default_value: 'az_text'
+
+  field_az_full_html:
+    plugin: sub_process
+    source: body
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: full_html
+
+  field_az_text_area:
+    plugin: sub_process
+    source: body
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+
+  behavior_settings:
+    plugin: paragraphs_behavior_settings
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+
+dependencies:
+  enforced:
+    module:
+      - az_migration

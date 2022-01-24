@@ -1,0 +1,82 @@
+id: ua_gc
+label: GC Proof of Concept
+migration_group: gc_migration
+migration_tags:
+  - Quickstart Content Migration
+  - GC Content Migration
+status: true
+
+source:
+  plugin: az_node
+  node_type: uagc_page
+
+destination:
+  plugin: entity:node
+
+process:
+
+  type:
+    plugin: default_value
+    default_value: az_flexible_page
+
+  title: title
+
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+
+  langcode:
+    plugin: static_map
+    bypass: true
+    source: language
+    map:
+      und: en
+
+  uid:
+    -
+      plugin: migration_lookup
+      migration: az_user
+      no_stub: true
+      source: node_uid
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/pathauto:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/alias:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+
+
+  field_az_main_content/target_id:
+    -
+      plugin: migration_lookup
+      migration: ua_gc_paragraph
+      source: nid
+      no_stub: true
+    -
+      plugin: extract
+      index:
+        - 0
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+      - ua_gc_paragraph
+
+migration_dependencies:
+  required:
+    - az_user
