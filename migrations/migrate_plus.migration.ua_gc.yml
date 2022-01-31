@@ -12,6 +12,8 @@ source:
 
 destination:
   plugin: entity:node
+  #careful here
+  bundle: az_flexible_page
 
 process:
 
@@ -70,6 +72,16 @@ process:
       plugin: extract
       index:
         - 0
+  field_az_main_content/target_revision_id:
+    -
+      plugin: migration_lookup
+      migration: ua_gc_paragraph
+      source: nid
+      no_stub: true
+    -
+      plugin: extract
+      index:
+        - 1
 
 dependencies:
   enforced:
@@ -80,3 +92,4 @@ dependencies:
 migration_dependencies:
   required:
     - az_user
+    - ua_gc_paragraph

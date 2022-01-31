@@ -48,9 +48,6 @@ process:
         default_value: az_standard
 
 
-  behavior_settings:
-    plugin: paragraphs_behavior_settings
-
 destination:
   plugin: 'entity_reference_revisions:paragraph'
 
