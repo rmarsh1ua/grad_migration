@@ -83,6 +83,13 @@ process:
       index:
         - 1
 
+  field_az_page_category:
+    -
+      plugin: migration_lookup
+      source: field_tags
+      migration:
+        - ua_gc_page_categories
+
 dependencies:
   enforced:
     module:
@@ -93,3 +100,4 @@ migration_dependencies:
   required:
     - az_user
     - ua_gc_paragraph
+    - ua_gc_page_categories
