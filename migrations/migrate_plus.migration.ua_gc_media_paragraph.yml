@@ -1,0 +1,55 @@
+id: ua_gc_media_paragraph
+label: UA GC Media Paragraphs
+migration_group: gc_migration
+migration_tags:
+  - Quickstart Content Migration
+  - GC Content Migration
+status: true
+
+source:
+  plugin: d7_node
+  node_type: uagc_page
+  #field_collection_names: field_files
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: az_text
+
+process:
+
+  temp_download_file:
+    -
+      plugin: sub_process
+      source: field_files
+      process:
+        -
+          plugin: migration_lookup
+          source: fid
+          migration:
+            - ua_gc_media_documents
+
+  field_az_text_area/value:
+    -
+      plugin: merge
+      source:
+        - '@temp_download_file'
+    -
+      plugin: paragraphs_file_download_field_merge
+
+  field_az_text_area/format:
+    plugin: default_value
+    default_value: az_standard
+
+  #behavior_settings:
+  #  plugin: paragraphs_behavior_settings
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+
+migration_dependencies:
+  required:
+    - ua_gc_file
+    #- ua_gc_media_documents
+    #- ua_gc_media_images

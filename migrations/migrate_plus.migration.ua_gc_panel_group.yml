@@ -1,0 +1,59 @@
+id: ua_gc_panel_group
+label: UA GC Paragraph Panel Groups
+migration_group: gc_migration
+migration_tags:
+  - Quickstart Content Migration
+  - GC Content Migration
+status: true
+
+source:
+  plugin: az_node_with_field_collection
+  node_type: accordion_page
+  field_collection_names: field_accordion
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: az_accordion
+
+process:
+  field_az_accordion:
+    plugin: sub_process
+    source: field_accordion_values
+    process:
+      delta: delta
+      title:
+        -
+          plugin: skip_on_empty
+          source: field_panel_title
+          method: process
+        -
+          plugin: extract
+          index:
+            - 0
+            - value
+      body:
+        -
+          plugin: skip_on_empty
+          source: field_panel_body
+          method: process
+        -
+          plugin: extract
+          index:
+            - 0
+            - value
+
+      body_format:
+        plugin: default_value
+        default_value: az_standard
+      collapsed:
+        -
+          plugin: default_value
+          default_value: 0
+
+#  behavior_settings:
+#    plugin: paragraphs_behavior_settings
+
+dependencies:
+  enforced:
+    module:
+      - az_migration

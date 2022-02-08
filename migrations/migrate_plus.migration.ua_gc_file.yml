@@ -1,4 +1,4 @@
-id: ua_gc_files
+id: ua_gc_file
 label: All Files
 migration_group: gc_migration
 migration_tags:
@@ -7,7 +7,7 @@ source:
   plugin: gc_file_migration
   scheme: public
   constants:
-    source_base_path: 'kronos.grad.arizona.edu/gcstandard/'
+    source_base_path: 'sites/default/files'
     old_files_path: ''
 
 process:

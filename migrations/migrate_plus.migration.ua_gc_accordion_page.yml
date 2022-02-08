@@ -1,0 +1,93 @@
+id: ua_gc_accordion_page
+label: GC Proof of Concept
+migration_group: gc_migration
+migration_tags:
+  - Quickstart Content Migration
+  - GC Content Migration
+status: true
+
+
+source:
+  plugin: az_node
+  node_type: accordion_page
+
+destination:
+  plugin: entity:node
+  bundle: az_flexible_page
+
+
+process:
+
+  type:
+    plugin: default_value
+    default_value: az_flexible_page
+
+  title: title
+
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+
+ # uid:
+ #   -
+ #     plugin: migration_lookup
+ #     migration: az_user
+ #     no_stub: true
+ #     source: node_uid
+ #   -
+ #     plugin: default_value
+ #     default_value: 0
+
+  langcode:
+    plugin: static_map
+    bypass: true
+    source: language
+    map:
+      und: en
+
+  path/pathauto:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/alias:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+
+
+  temp_body_value:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_paragraph
+
+  temp_panel_value:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_panel_group
+
+
+  field_az_main_content:
+    plugin: paragraphs_mapping_flexible_page
+    source:
+      - '@temp_body_value'
+      - '@temp_panel_value'
+
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+      - ua_gc_paragraph
+
+migration_dependencies:
+  required:
+    - az_user
+    - ua_gc_paragraph

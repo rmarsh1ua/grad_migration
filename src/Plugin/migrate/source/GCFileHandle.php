@@ -65,7 +65,7 @@ class GCFileHandle extends File
         $migrate_d7_filebasepath = \Drupal::config('gc_migration.settings')->get('migrate_d7_filebasepath');
 
         if ($migrate_d7_filebasepath !== " " && $migrate_d7_filebasepath !== "") {
-            $row->setSourceProperty('constants/old_files_path', $migrate_d7_protocol . ":/" . $migrate_d7_filebasepath);
+            $row->setSourceProperty('constants/old_files_path', $migrate_d7_protocol . "://" . $migrate_d7_filebasepath);
         }
 
         // @phpstan-ignore-next-line

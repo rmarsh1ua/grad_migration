@@ -1,5 +1,5 @@
-id: ua_gc_page_categories
-label: UA GC Page Categories
+id: ua_gc_tag
+label: UA GC Tags
 migration_group: gc_migration
 migration_tags:
   - Quickstart Content Migration
@@ -32,9 +32,9 @@ process:
       plugin: skip_on_empty
       method: process
       source: parent
-    -
-      plugin: migration_lookup
-      migration: ua_gc
+    #-
+    #  plugin: migration_lookup
+    #  migration: ua_gc
 
   parent:
     plugin: default_value

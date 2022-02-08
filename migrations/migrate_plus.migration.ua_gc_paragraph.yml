@@ -7,7 +7,10 @@ status: true
 
 source:
   plugin: d7_node
-  node_type: uagc_page
+  node_type:
+    - uagc_page
+    - accordion_page
+    - uagc_admin_page
 
 process:
   destination_bundle:
@@ -27,9 +30,29 @@ process:
       plugin: default_value
       default_value: 'az_text'
 
+  temp_fixed_body:
+    -
+      plugin: str_replace
+      regex: true
+      source: body
+      search: '#a href=\"\/[A-z]+\/sites\/default\/files\/uagc_page\/(.+)\"#'
+      replace: 'a href="sites/default/files/uagc_page/$1"'
+
   field_az_full_html:
+
     plugin: sub_process
-    source: body
+    source: '@temp_fixed_body'
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: full_html
+
+
+  body:
+    plugin: sub_process
+    source: '@temp_fixed_body'
     process:
       delta: delta
       value: value
@@ -39,7 +62,7 @@ process:
 
   field_az_text_area:
     plugin: sub_process
-    source: body
+    source: '@temp_fixed_body'
     process:
       delta: delta
       value: value

@@ -12,7 +12,6 @@ source:
 
 destination:
   plugin: entity:node
-  #careful here
   bundle: az_flexible_page
 
 process:
@@ -62,33 +61,66 @@ process:
       method: process
 
 
-  field_az_main_content/target_id:
+#  field_az_main_content/target_id:
+#    -
+#      plugin: migration_lookup
+#      migration: ua_gc_paragraph
+#      source: nid
+#      no_stub: true
+#    -
+#      plugin: extract
+#      index:
+#        - 0
+
+
+  temp_body_value:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_paragraph
+
+  temp_files_values:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_media_paragraph
+
+
+  field_az_main_content:
     -
-      plugin: migration_lookup
-      migration: ua_gc_paragraph
-      source: nid
-      no_stub: true
-    -
-      plugin: extract
-      index:
-        - 0
-  field_az_main_content/target_revision_id:
-    -
-      plugin: migration_lookup
-      migration: ua_gc_paragraph
-      source: nid
-      no_stub: true
-    -
-      plugin: extract
-      index:
-        - 1
+      plugin: paragraphs_mapping_flexible_page
+      source:
+        - '@temp_body_value'
+        - '@temp_files_values'
+
+
+#  field_az_main_content/target_revision_id:
+#    -
+#      plugin: migration_lookup
+#      migration: ua_gc_paragraph
+#      source: nid
+#      no_stub: true
+#    -
+#      plugin: extract
+#      index:
+#        - 1
 
   field_az_page_category:
     -
       plugin: migration_lookup
       source: field_tags
       migration:
-        - ua_gc_page_categories
+        - ua_gc_tag
+
+  field_az_media_image:
+    plugin: sub_process
+    source: field_images
+    process:
+      delta: delta
+      target_id:
+      -
+        plugin: migration_lookup
+        source: fid
+        migration:
+          - ua_gc_images_media
 
 dependencies:
   enforced:
@@ -100,4 +132,5 @@ migration_dependencies:
   required:
     - az_user
     - ua_gc_paragraph
-    - ua_gc_page_categories
+    - ua_gc_tag
+    - ua_gc_images_media
