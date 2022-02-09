@@ -1,9 +1,9 @@
 id: ua_gc_panel_group
-label: UA GC Paragraph Panel Groups
 migration_group: gc_migration
+label: Grad College Accordion Panel to Paragraph
 migration_tags:
-  - Quickstart Content Migration
   - GC Content Migration
+  - GC Paragraphs
 status: true
 
 source:
@@ -50,10 +50,8 @@ process:
           plugin: default_value
           default_value: 0
 
-#  behavior_settings:
-#    plugin: paragraphs_behavior_settings
-
 dependencies:
   enforced:
     module:
       - az_migration
+      - az_accordion

@@ -1,9 +1,9 @@
 id: ua_gc_umbrella_page
-label: UA Graduate College Umbrella Page
+label: Grad College Umbrella Page
 migration_group: gc_migration
 migration_tags:
-  - Quickstart Content Migration
   - GC Content Migration
+  - GC Pages
 status: true
 
 source:
@@ -89,4 +89,3 @@ migration_dependencies:
     - az_user
     - ua_gc_paragraph
     - ua_gc_media_paragraph
-    - ua_gc_tag

@@ -1,8 +1,11 @@
 id: ua_gc_file
-label: All Files
+label: Grad College Files
 migration_group: gc_migration
 migration_tags:
-  - Quickstart Content Migration
+  - GC Content Migration
+  - GC Media
+status: true
+
 source:
   plugin: gc_file_migration
   scheme: public
@@ -57,6 +60,12 @@ process:
 
 destination:
   plugin: entity:file
+
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
 
 migration_dependencies:
   required:

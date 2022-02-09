@@ -1,9 +1,9 @@
 id: ua_gc_page
-label: GC Basic Page
+label: Grad College Basic Page
 migration_group: gc_migration
 migration_tags:
-  - Quickstart Content Migration
   - GC Content Migration
+  - GC Pages
 status: true
 
 source:
@@ -90,7 +90,6 @@ dependencies:
   enforced:
     module:
       - az_migration
-      - ua_gc_paragraph
 
 migration_dependencies:
   required:

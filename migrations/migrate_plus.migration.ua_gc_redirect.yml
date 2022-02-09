@@ -1,10 +1,11 @@
-id: ua_gc_redirects
-label: GC Path Redirect
+id: ua_gc_redirect
+label: Grad College Path Redirect
 migration_group: gc_migration
 migration_tags:
-  - Quickstart Content Migration
   - Redirects
   - GC Content Migration
+status: true
+
 source:
   plugin: d7_path_redirect
 process:
@@ -56,8 +57,15 @@ process:
 
 destination:
   plugin: entity:redirect
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+
 migration_dependencies:
   required:
       - ua_gc_page
       - ua_gc_tag
       - az_user
+

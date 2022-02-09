@@ -1,8 +1,9 @@
 id: ua_gc_paragraph
-label: Test paragraph
 migration_group: gc_migration
+label: Grad College Text to Paragraphs
 migration_tags:
-  - Quickstart Content Migration
+  - GC Content Migration
+  - GC Paragraphs
 status: true
 
 source:
@@ -87,3 +88,4 @@ dependencies:
   enforced:
     module:
       - az_migration
+      - az_paragraphs

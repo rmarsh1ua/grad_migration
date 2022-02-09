@@ -1,9 +1,10 @@
 id: ua_gc_media_paragraph
-label: UA GC Media Paragraphs
 migration_group: gc_migration
+label: Grad College File Attachments to Paragraph
 migration_tags:
-  - Quickstart Content Migration
   - GC Content Migration
+  - GC Media
+  - GC Paragraphs
 status: true
 
 source:
@@ -29,7 +30,7 @@ process:
           plugin: migration_lookup
           source: fid
           migration:
-            - ua_gc_media_documents
+            - ua_gc_media_document
 
   field_az_text_area/value:
     -
@@ -43,9 +44,6 @@ process:
     plugin: default_value
     default_value: az_standard
 
-  #behavior_settings:
-  #  plugin: paragraphs_behavior_settings
-
 dependencies:
   enforced:
     module:
@@ -53,5 +51,4 @@ dependencies:
 
 migration_dependencies:
   required:
-    - ua_gc_file
-    - ua_gc_media_documents
+    - ua_gc_media_document

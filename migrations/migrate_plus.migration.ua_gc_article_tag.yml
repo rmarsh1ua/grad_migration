@@ -1,8 +1,7 @@
 id: ua_gc_article_tag
-label: UA GC Tags
+label: Grad College Article Tags
 migration_group: gc_migration
 migration_tags:
-  - Quickstart Content Migration
   - GC Content Migration
   - Taxonomy
 status: true
@@ -32,9 +31,6 @@ process:
       plugin: skip_on_empty
       method: process
       source: parent
-    #-
-    #  plugin: migration_lookup
-    #  migration: ua_gc
 
   parent:
     plugin: default_value
@@ -42,4 +38,9 @@ process:
     source: '@parent_id'
 
   changed: timestamp
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
 

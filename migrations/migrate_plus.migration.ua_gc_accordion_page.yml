@@ -1,9 +1,9 @@
 id: ua_gc_accordion_page
-label: GC Proof of Concept
+label: Grad College Accordion Page
 migration_group: gc_migration
 migration_tags:
-  - Quickstart Content Migration
   - GC Content Migration
+  - GC Pages
 status: true
 
 
@@ -73,23 +73,28 @@ process:
     source: nid
     migration: ua_gc_media_paragraph
 
+  temp_panel_value:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_panel_group
+
 
   field_az_main_content:
     -
       plugin: paragraphs_mapping_flexible_page
       source:
         - '@temp_body_value'
+        - '@temp_panel_value'
         - '@temp_files_values'
-
 
 dependencies:
   enforced:
     module:
       - az_migration
-      - ua_gc_paragraph
 
 migration_dependencies:
   required:
     - az_user
     - ua_gc_paragraph
+    - ua_gc_media_paragraph
     - ua_gc_panel_group

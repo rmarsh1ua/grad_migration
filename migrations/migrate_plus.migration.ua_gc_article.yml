@@ -1,8 +1,9 @@
 id: ua_gc_article
-label: GC Articles
+label: Grad College Articles
 migration_group: gc_migration
 migration_tags:
   - GC Content Migration
+  - GC Pages
 status: true
 
 source:
@@ -91,7 +92,7 @@ process:
         plugin: migration_lookup
         source: fid
         migration:
-          - ua_gc_media_images
+          - ua_gc_media_image
 
 
 
@@ -105,4 +106,4 @@ migration_dependencies:
   required:
     - az_user
     - ua_gc_article_tag
-    - ua_gc_media_images
+    - ua_gc_media_image

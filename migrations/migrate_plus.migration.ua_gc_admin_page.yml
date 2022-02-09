@@ -1,8 +1,9 @@
-id: ua_gc_admin
-label: GC Admin Page
+id: ua_gc_admin_page
+label: Grad College Admin Page
 migration_group: gc_migration
 migration_tags:
   - GC Content Migration
+  - GC Pages
 status: true
 
 source:
@@ -82,9 +83,9 @@ dependencies:
   enforced:
     module:
       - az_migration
-      - ua_gc_paragraph
 
 migration_dependencies:
   required:
     - az_user
     - ua_gc_paragraph
+    - ua_gc_media_paragraph
