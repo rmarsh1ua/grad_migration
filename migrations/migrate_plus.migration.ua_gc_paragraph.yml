@@ -11,6 +11,7 @@ source:
     - uagc_page
     - accordion_page
     - uagc_admin_page
+    - uagc_umbrella_page
 
 process:
   destination_bundle:
@@ -35,13 +36,21 @@ process:
       plugin: str_replace
       regex: true
       source: body
-      search: '#a href=\"\/[A-z]+\/sites\/default\/files\/uagc_page\/(.+)\"#'
-      replace: 'a href="sites/default/files/uagc_page/$1"'
+      search: '#a href=\"\/[A-z]+\/sites\/default\/files\/(.+)\"#'
+      replace: 'a href="sites/default/files/$1"'
+
+  temp_fixed_body_p2:
+    -
+      plugin: str_replace
+      regex: true
+      source: '@temp_fixed_body'
+      search: '#img(.+)src=\"\/[A-z]+\/sites\/default\/files\/(.+)\"#'
+      replace: 'img$1src="sites/default/files/$2"'
 
   field_az_full_html:
 
     plugin: sub_process
-    source: '@temp_fixed_body'
+    source: '@temp_fixed_body_p2'
     process:
       delta: delta
       value: value
@@ -52,7 +61,7 @@ process:
 
   body:
     plugin: sub_process
-    source: '@temp_fixed_body'
+    source: '@temp_fixed_body_p2'
     process:
       delta: delta
       value: value
@@ -62,7 +71,7 @@ process:
 
   field_az_text_area:
     plugin: sub_process
-    source: '@temp_fixed_body'
+    source: '@temp_fixed_body_p2'
     process:
       delta: delta
       value: value

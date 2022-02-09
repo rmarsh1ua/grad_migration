@@ -30,12 +30,18 @@ class FileByType extends File
         if (isset($this->configuration['get_alt'])) {
             $alt_alias = $query->addJoin('left', 'field_data_field_images', 'alt', 'f.fid = %alias.field_images_fid');
             $query->addField($alt_alias, 'field_images_alt', 'alt');
+
+            $alt_alias_singular = $query->addJoin('left', 'field_data_field_image', 'alt_singular', 'f.fid = %alias.field_image_fid');
+            $query->addField($alt_alias_singular, 'field_image_alt', 'alt_singular');
         }
 
         // Get the title text, if configured.
         if (isset($this->configuration['get_title'])) {
             $title_alias = $query->addJoin('left', 'field_data_field_images', 'title', 'f.fid = %alias.field_images_fid');
             $query->addField($title_alias, 'field_images_title', 'title');
+
+            $title_alias_singular = $query->addJoin('left', 'field_data_field_image', 'title_singular', 'f.fid = %alias.field_image_fid');
+            $query->addField($title_alias_singular, 'field_image_title', 'title_singular');
         }
 
         return $query;
@@ -49,7 +55,9 @@ class FileByType extends File
         $fields = parent::fields();
         $fields['type'] = $this->t('The type of file.');
         $fields['alt'] = $this->t('Alt text of the file (if present)');
+        $fields['alt_singular'] = $this->t('Alt text of the file (if present)');
         $fields['title'] = $this->t('Title text of the file (if present)');
+        $fields['title_singular'] = $this->t('Title text of the file (if present)');
         return $fields;
     }
 }

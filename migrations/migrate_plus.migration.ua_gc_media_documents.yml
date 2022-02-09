@@ -55,3 +55,4 @@ destination:
 migration_dependencies:
   required:
     - ua_gc_file
+    - az_user

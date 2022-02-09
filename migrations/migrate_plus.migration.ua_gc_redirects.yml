@@ -9,11 +9,16 @@ source:
   plugin: d7_path_redirect
 process:
   rid: rid
-  skip_count:
-    plugin: skip_on_value
-    source: count
-    value: 0
-    method: row
+  ## Commenting this out because
+  ## it skips "unused" redirects.
+  ## This causes some failures
+  ## to happen if the content
+  ## doesn't exist on the new site
+  #skip_count:
+  #  plugin: skip_on_value
+  #  source: count
+  #  value: 0
+  #  method: row
   uid:
     -
       plugin: migration_lookup
@@ -30,9 +35,9 @@ process:
   link_path_processed:
     plugin: az_migrated_path_lookup
     term_migration:
-      - ua_gc_page_categories
+      - ua_gc_tag
     node_migration:
-      - ua_gc
+      - ua_gc_page
     source: redirect
   redirect_redirect/uri:
     -
@@ -53,5 +58,6 @@ destination:
   plugin: entity:redirect
 migration_dependencies:
   required:
-      - ua_gc
+      - ua_gc_page
+      - ua_gc_tag
       - az_user

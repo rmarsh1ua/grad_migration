@@ -8,8 +8,11 @@ status: true
 
 source:
   plugin: d7_node
-  node_type: uagc_page
-  #field_collection_names: field_files
+  node_type:
+    - uagc_page
+    - uagc_umbrella_page
+    - accordion_page
+    - uagc_admin_page
 
 destination:
   plugin: 'entity_reference_revisions:paragraph'
@@ -51,5 +54,4 @@ dependencies:
 migration_dependencies:
   required:
     - ua_gc_file
-    #- ua_gc_media_documents
-    #- ua_gc_media_images
+    - ua_gc_media_documents

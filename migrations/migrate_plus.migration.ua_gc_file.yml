@@ -41,9 +41,6 @@ process:
       file_exists: "use existing"
 
   filemime: filemime
-  # filesize is dynamically computed when file entities are saved, so there is
-  # no point in migrating it.
-  # filesize: filesize
   status: status
   created: timestamp
   changed: timestamp
@@ -60,3 +57,7 @@ process:
 
 destination:
   plugin: entity:file
+
+migration_dependencies:
+  required:
+    - az_user

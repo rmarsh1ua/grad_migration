@@ -1,20 +1,18 @@
-id: ua_gc_accordion_page
-label: GC Proof of Concept
+id: ua_gc_page
+label: GC Basic Page
 migration_group: gc_migration
 migration_tags:
   - Quickstart Content Migration
   - GC Content Migration
 status: true
 
-
 source:
   plugin: az_node
-  node_type: accordion_page
+  node_type: uagc_page
 
 destination:
   plugin: entity:node
   bundle: az_flexible_page
-
 
 process:
 
@@ -30,6 +28,13 @@ process:
   promote: promote
   sticky: sticky
 
+  langcode:
+    plugin: static_map
+    bypass: true
+    source: language
+    map:
+      und: en
+
   uid:
     -
       plugin: migration_lookup
@@ -39,13 +44,6 @@ process:
     -
       plugin: default_value
       default_value: 0
-
-  langcode:
-    plugin: static_map
-    bypass: true
-    source: language
-    map:
-      und: en
 
   path/pathauto:
     -
@@ -81,6 +79,12 @@ process:
         - '@temp_body_value'
         - '@temp_files_values'
 
+  field_az_page_category:
+    -
+      plugin: migration_lookup
+      source: field_tags
+      migration:
+        - ua_gc_tag
 
 dependencies:
   enforced:
@@ -92,4 +96,5 @@ migration_dependencies:
   required:
     - az_user
     - ua_gc_paragraph
-    - ua_gc_panel_group
+    - ua_gc_media_paragraph
+    - ua_gc_tag

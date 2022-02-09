@@ -32,8 +32,16 @@ process:
     plugin: migration_lookup
     migration: ua_gc_file
     source: fid
-  field_media_az_image/alt: alt
-  field_media_az_image/title: title
+  field_media_az_image/alt:
+    plugin: concat
+    source:
+      - alt
+      - alt_singular
+  field_media_az_image/title:
+    plugin: concat
+    source:
+      - title
+      - title_singular
   status: status
   created: timestamp
   changed: timestamp
@@ -54,3 +62,4 @@ destination:
 migration_dependencies:
   required:
     - ua_gc_file
+    - az_user
