@@ -39,6 +39,10 @@ process:
       - ua_gc_tag
     node_migration:
       - ua_gc_page
+      - ua_gc_accordion_page
+      - ua_gc_umbrella_page
+      - ua_gc_article
+      - ua_admin_page
     source: redirect
   redirect_redirect/uri:
     -
@@ -66,6 +70,10 @@ dependencies:
 migration_dependencies:
   required:
       - ua_gc_page
+      - ua_gc_accordion_page
+      - ua_gc_umbrella_page
+      - ua_gc_article
+      - ua_admin_page
       - ua_gc_tag
       - az_user
 
