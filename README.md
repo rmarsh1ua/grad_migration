@@ -60,3 +60,66 @@ drush migrate-import ua_gc_paragraph --migrate-debug
 ```
 
 The debug flag is of course optional. Using the `--group` flag must be used in conjunction with the `--continue-on-failure` flag, as the migration for redirects fails to import several entries by design.
+
+
+# Pantheon Instructions
+
+If you're atempting to get this package working against a site hosted in Pantheon, the following steps describe how to do so.
+
+1. Login to the Pantheon dashboard and create a new site.
+
+2. From Pantheon, preview the site and install Drupal using the web interface. Just choose all the basic options.
+
+3. Go back to the Pantheon dashboard and use the 'connection info' panel to create a local connection to the MySQL database. You can do this in MySQL workbench or from the command line. From th new MySQL server connection, you wish to import the SQL dump file of the site being migrated. This will take some time because of the remote connection.
+
+4. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
+`/code/web/sites/default/files/private/migration_config.json`
+
+The contents of the file should be as follows:
+
+```
+{
+	"mysql_database": "<name of database from old site dump file>",
+	"mysql_password": "<mysql password per pantheon>",
+	"mysql_host": "<mysql host per pantheon>",
+	"mysql_port": "<mysql port per panethon>",
+	"mysql_username": "pantheon"
+}
+```
+
+5. Inside the project there's file named `non-qs-schema-fix.sql`. The commands in this file should be run against the old database once it's been imported. See step #4 in the instructions above for further context the purpose of this step.
+
+6. `git clone` the Pantheon site to your local machine. Edit the composer.json file as follows:
+
+ - In the 'repositories' section: 
+ ```
+    {
+    "type": "vcs",
+    "url": "git@github.com:uazgraduatecollege/grad_migration.git"
+    }
+  ```
+ - And in the 'require' section:
+  ```
+    "uazgraduatecollege/grad_migration": "dev-main",
+    "drupal/migrate_tools": "*",
+    "drupal/migrate_devel": "*" 
+  ```
+
+7. Delete composer.lock file and create an auth.json file. The auth.json file needs to contain an authentication token for a machine user that has repo access enabled.
+
+8. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
+
+9. Through the Drupal's web interface login as an admin user and enable the modules. Also enable the 'Quickstart Paragraphs - HTML' module.
+
+10. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+```
+terminus drush cset gc_migration.settings migrate_d7_protocol "https"
+terminus drush cset gc_migration.settings migrate_d7_filebasepath "kronos.grad.arizona.edu/gcstandard"
+terminus drush cset gc_migration.settings migrate_d7_public_path "sites/default/files"
+terminus drush migrate-import az_user
+terminus -- drush migrate-import --group gc_migration --migrate-debug --continue-on-failure
+
+NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so
+ensure that firewall access allows http requests against the URL given.
+
+
