@@ -1,8 +1,15 @@
-# Grad College Quickstart 2 Migration
+# Grad College to Quickstart 2 Migration
 
-This is a custom migration module intended to bring over content from Grad College Drupal 7 sites, to the new Arizona Quickstart 2 Drupal 8/9 site. This consists of a series of migration files and a few custom Source PHP classes. This is dependent on the az_migration module, a custom module inclued in Quickstart meant to transfer files between QS1 and QS2 sites, as well as a few other custom modules packaged with Quickstart 2.
+This is a custom migration module intended to bring over content from Grad College Drupal 7 sites, to the new Arizona Quickstart 2 Drupal 8/9 site.
+This consists of a series of migration files and a few custom Source PHP classes.
+This is dependent on the az_migration module, a custom module inclued in Quickstart meant to transfer files between QS1 and QS2 sites, as well as a few other custom modules packaged with Quickstart 2.
 
-# Instructions
+## Contents
+
+1. Instructions for migrating to a standard Quickstart 2 Installation
+2. Instructions for migrating to a Pantheon-hosted Quickstart 2 Installation
+
+## 1. Instructions for Migrating to a Standard Quickstart 2 Installation
 
 To use this module follow the steps below:
 
@@ -61,8 +68,7 @@ drush migrate-import ua_gc_paragraph --migrate-debug
 
 The debug flag is of course optional. Using the `--group` flag must be used in conjunction with the `--continue-on-failure` flag, as the migration for redirects fails to import several entries by design.
 
-
-# Pantheon Instructions
+## 2. Instructions for Migrating to a Pantheon-hosted Quickstart 2 Installation
 
 If you're atempting to get this package working against a site hosted in Pantheon, the following steps describe how to do so.
 
@@ -112,12 +118,18 @@ The contents of the file should be as follows:
 9. Through the Drupal's web interface login as an admin user and enable the modules. Also enable the 'Quickstart Paragraphs - HTML' module.
 
 10. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
-```
+```sh
 terminus drush cset gc_migration.settings migrate_d7_protocol "https"
 terminus drush cset gc_migration.settings migrate_d7_filebasepath "kronos.grad.arizona.edu/gcstandard"
 terminus drush cset gc_migration.settings migrate_d7_public_path "sites/default/files"
 terminus drush migrate-import az_user
+terminus -- drush migrate-import --group gc_migration --continue-on-failure
+```
+
+To perform the migration and see debugging output, use this instead:
+```sh
 terminus -- drush migrate-import --group gc_migration --migrate-debug --continue-on-failure
+```
 
 NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so
 ensure that firewall access allows http requests against the URL given.
