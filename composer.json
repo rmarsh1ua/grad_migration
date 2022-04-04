@@ -1,5 +1,5 @@
 {
-  "name": "rmarsh1ua/grad_migration",
+  "name": "uazgraduatecollege/grad_migration",
   "description": "This is a custom migration module for the UA Grad College.",
   "type": "drupal-custom-module",
   "require": {
