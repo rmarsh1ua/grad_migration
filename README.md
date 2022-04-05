@@ -37,7 +37,7 @@ To use this module follow the steps below:
 5. `git clone` this repo into the modules/custom folder of the site. Install the gc_migrate module. This can be done through the website's admin interface or using drush.
 `drush en gc_migration`
 
-6. Install supporting modules. Enabling gc_migration in the last step should enable a series of dependent modules. You must also enable the Quickstart Paragraphs - HTML submodule (az_paragraphs_html). There are a number of other modules that make the migration process easier that can be installed:
+6. Install supporting modules. Enabling gc_migration in the last step should enable a series of dependent modules. You MUST also enable the `Quickstart Paragraphs - HTML` submodule (az_paragraphs_html). There are a number of other modules that make the migration process easier that can be installed:
 ```
 rm composer.lock
 composer require drupal/migrate_tools
@@ -70,15 +70,17 @@ The debug flag is of course optional. Using the `--group` flag must be used in c
 
 ## 2. Instructions for Migrating to a Pantheon-hosted Quickstart 2 Installation
 
-If you're atempting to get this package working against a site hosted in Pantheon, the following steps describe how to do so.
+If you're attempting to get this package working against a site hosted in Pantheon, the following steps describe how to do so.
 
 1. Login to the Pantheon dashboard and create a new site.
 
 2. From Pantheon, preview the site and install Drupal using the web interface. Just choose all the basic options.
 
-3. Go back to the Pantheon dashboard and use the 'connection info' panel to create a local connection to the MySQL database. You can do this in MySQL workbench or from the command line. From th new MySQL server connection, you wish to import the SQL dump file of the site being migrated. This will take some time because of the remote connection.
+3. Go back to the Pantheon dashboard and use the 'connection info' panel to create a local connection to the MySQL database. You can do this in MySQL workbench or from the command line. From the new MySQL server connection, you need to import the SQL dump file of the site being migrated. This will take some time because of the remote connection.
 
-4. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
+4. Inside the project there's file named `non-qs-schema-fix.sql`. The commands in this file should be run against the old database once it's been imported. See step #4 in the instructions above for further context the purpose of this step.
+
+5. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
 `/code/web/sites/default/files/private/migration_config.json`
 
 The contents of the file should be as follows:
@@ -92,8 +94,6 @@ The contents of the file should be as follows:
 	"mysql_username": "pantheon"
 }
 ```
-
-5. Inside the project there's file named `non-qs-schema-fix.sql`. The commands in this file should be run against the old database once it's been imported. See step #4 in the instructions above for further context the purpose of this step.
 
 6. `git clone` the Pantheon site to your local machine. Edit the composer.json file as follows:
 
@@ -111,11 +111,11 @@ The contents of the file should be as follows:
     "drupal/migrate_devel": "*" 
   ```
 
-7. Delete composer.lock file and create an auth.json file. The auth.json file needs to contain an authentication token for a machine user that has repo access enabled.
+7. Delete composer.lock file.
 
 8. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
 
-9. Through the Drupal's web interface login as an admin user and enable the modules. Also enable the 'Quickstart Paragraphs - HTML' module.
+9. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`, `Migrate Devel`, `Migrate Tools`, and `Quickstart Paragraphs - HTML` modules.
 
 10. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
