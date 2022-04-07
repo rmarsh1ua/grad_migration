@@ -7,8 +7,9 @@ migration_tags:
 status: true
 
 source:
-  plugin: az_node
+  plugin: filter_old_content
   node_type: uagc_page
+  filter_date: "2016-01-01"
 
 destination:
   plugin: entity:node

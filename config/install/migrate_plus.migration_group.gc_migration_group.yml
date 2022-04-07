@@ -16,9 +16,6 @@ source_type: Drupal 7 Site
 shared_configuration:
  source:
    key: migrate
-   plugin: filter_old_content
-   node_type: uagc_page
-   filter_date: "2016-01-01"
 
 # We add dependencies just to make sure everything we need will be available
 dependencies:
