@@ -12,9 +12,13 @@ source_type: Drupal 7 Site
 
 # Here we add any default configuration settings to be shared among all
 # migrations in the group.
+# Use the FilterOldContent plugin to limit the age of migrated nodes
 shared_configuration:
  source:
    key: migrate
+   plugin: filter_old_content
+   node_type: uagc_page
+   filter_date: "2016-01-01"
 
 # We add dependencies just to make sure everything we need will be available
 dependencies:
@@ -24,8 +28,3 @@ dependencies:
      - migrate_drupal
      - migrate_tools
 
-# Use the FilterOldContent plugin to limit the age of migrated nodes
-source:
-  plugin: filter_old_content
-  node_type: uagc_page
-  filter_date: "2016-01-01"
