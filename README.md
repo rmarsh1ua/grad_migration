@@ -17,7 +17,7 @@ To use this module follow the steps below:
 
 2. For the sake of simplicity, get a dump of the existing database and import it into the same database server as the new environment's db server. You ultimately want a "drupal9" database, for the new QS2 site, and the old system's data on the same server.
 
-3. Add a connection for the old database dump. This should go in /sites/default/settings.php
+3. Add a connection for the old database dump. This should go in `/sites/default/settings.php`
 
   ```
   $databases['migrate']['default'] = [
@@ -32,12 +32,12 @@ To use this module follow the steps below:
   ];
   ```
 
-4. The AZ migration module assumes that content is being migrated from a D7 QS1 website and accordingly assumes that certain modules are installed which assumes additional database schema in the OLD database that may not strictly be present. Because our sites are not based on QS1, there may be some tables/modules missing that will cause errors to appear while checking migration status. The easiest way to fix this is to simply fill stub schema into the database dump. For the gcstandard site, there's an example of all the necessary SQL to bridge the database in the non-qs-schema-fix.sql file in this repo. This may vary from site to site.
+4. The AZ migration module assumes that content is being migrated from a D7 QS1 website and accordingly assumes that certain modules are installed which assumes additional database schema in the OLD database that may not strictly be present. Because our sites are not based on QS1, there may be some tables/modules missing that will cause errors to appear while checking migration status. The easiest way to fix this is to simply fill stub schema into the database dump. For most GRAD Drupal sites, there's an example of all the necessary SQL to bridge the database in the `non-qs-schema-fix.sql` file in this repo. This may vary from site to site.
 
 5. `git clone` this repo into the modules/custom folder of the site. Install the gc_migrate module. This can be done through the website's admin interface or using drush.
 `drush en gc_migration`
 
-6. Install supporting modules. Enabling gc_migration in the last step should enable a series of dependent modules. You MUST also enable the `Quickstart Paragraphs - HTML` submodule (az_paragraphs_html). There are a number of other modules that make the migration process easier that can be installed:
+6. Install supporting modules. Enabling gc_migration in the last step should enable a series of dependent modules. You MUST also enable the **Quickstart Paragraphs - HTML** submodule (`az_paragraphs_html`). There are a number of other modules that make the migration process easier that can be installed:
 ```
 rm composer.lock
 composer require drupal/migrate_tools
@@ -48,7 +48,7 @@ drush en migrate_devel
 7. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the gc_migration.settings.config.
 ```
 drush cset gc_migration.settings migrate_d7_protocol "https"
-drush cset gc_migration.settings migrate_d7_filebasepath "kronos.grad.arizona.edu/gcstandard"
+drush cset gc_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 drush cset gc_migration.settings migrate_d7_public_path "sites/default/files"
 ```
 
@@ -117,10 +117,15 @@ The contents of the file should be as follows:
 
 9. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`, `Migrate Devel`, `Migrate Tools`, and `Quickstart Paragraphs - HTML` modules.
 
+Alternatively run:
+```sh
+terminus remote:drush en gc_migration
+```
+
 10. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus drush cset gc_migration.settings migrate_d7_protocol "https"
-terminus drush cset gc_migration.settings migrate_d7_filebasepath "kronos.grad.arizona.edu/gcstandard"
+terminus drush cset gc_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 terminus drush cset gc_migration.settings migrate_d7_public_path "sites/default/files"
 terminus drush migrate-import az_user
 terminus -- drush migrate-import --group gc_migration --continue-on-failure
@@ -133,5 +138,4 @@ terminus -- drush migrate-import --group gc_migration --migrate-debug --continue
 
 NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so
 ensure that firewall access allows http requests against the URL given.
-
 

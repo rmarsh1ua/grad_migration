@@ -3,12 +3,10 @@ CREATE TABLE `boxes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 CREATE TABLE `picture_mapping` (
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 CREATE TABLE `filter_formats` (
   `id` int(11) NOT NULL,
