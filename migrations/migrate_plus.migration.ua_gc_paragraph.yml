@@ -15,19 +15,10 @@ source:
     - uagc_umbrella_page
 
 process:
-  destination_bundle:
-    plugin: text_format_recognizer
-    format: 'az_standard'
-    source: body
-    required_module: 'az_paragraphs_html'
-    passed: 'az_text'
-    failed: 'az_html'
-    module_missing: 'az_text'
+
+  destination_bundle: 'az_text'
 
   type:
-    -
-      plugin: array_shift
-      source: '@destination_bundle'
     -
       plugin: default_value
       default_value: 'az_text'
