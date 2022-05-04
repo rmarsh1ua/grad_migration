@@ -11,3 +11,5 @@ dependencies:
  - drupal:media_migration
  - az_carousel
  - az_migration
+ - az_paragraphs_html
+
