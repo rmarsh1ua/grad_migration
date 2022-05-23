@@ -1,5 +1,5 @@
 id: ua_gc_media_paragraph
-migration_group: gc_migration
+migration_group: grad_migration
 label: Grad College File Attachments to Paragraph
 migration_tags:
   - GC Content Migration

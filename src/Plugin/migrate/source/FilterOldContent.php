@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\gc_migration\Plugin\migrate\source;
+namespace Drupal\grad_migration\Plugin\migrate\source;
 
 use Drupal\node\Plugin\migrate\source\d7\Node as D7Node;
 

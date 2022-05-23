@@ -1,6 +1,6 @@
 id: ua_gc_file
 label: Grad College Files
-migration_group: gc_migration
+migration_group: grad_migration
 migration_tags:
   - GC Content Migration
   - GC Media

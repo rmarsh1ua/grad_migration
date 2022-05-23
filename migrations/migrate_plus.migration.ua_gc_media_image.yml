@@ -1,5 +1,5 @@
 id: ua_gc_media_image
-migration_group: gc_migration
+migration_group: grad_migration
 label: Grad College Files to Image Media Migration
 migration_tags:
   - GC Content Migration

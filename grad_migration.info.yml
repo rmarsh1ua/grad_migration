@@ -1,5 +1,5 @@
-name: GC Quickstart Migration
-description: 'Provides gc migrations for the site.'
+name: Grad Quickstart Migration
+description: 'Provides grad college migrations for the site.'
 core_version_requirement: ^8.8 || ^9
 type: module
 package: 'The University of Arizona - Experimental'
@@ -12,4 +12,5 @@ dependencies:
  - az_carousel
  - az_migration
  - az_paragraphs_html
+ - media_migration
 
