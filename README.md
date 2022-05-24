@@ -32,12 +32,29 @@ To use this module follow the steps below:
   ];
   ```
 
-4. The AZ migration module assumes that content is being migrated from a D7 QS1 website and accordingly assumes that certain modules are installed which assumes additional database schema in the OLD database that may not strictly be present. Because our sites are not based on QS1, there may be some tables/modules missing that will cause errors to appear while checking migration status. The easiest way to fix this is to simply fill stub schema into the database dump. For most GRAD Drupal sites, there's an example of all the necessary SQL to bridge the database in the `non-qs-schema-fix.sql` file in this repo. This may vary from site to site.
 
-5. `git clone` this repo into the modules/custom folder of the site. Install the grad_migration module. This can be done through the website's admin interface or using drush.
+4. Additionally, add the following snippet to `/sites/default/settings.php`. This is necessary for the media migration to
+work correctly.
+
+```
+$settings['media_migration_embed_token_transform_destination_filter_plugin'] = 'media_embed';
+$settings['media_migration_embed_media_reference_method'] = 'uuid';
+```
+
+5. The AZ migration module assumes that content is being migrated from a D7 QS1 website and accordingly assumes that certain modules are installed which assumes additional database schema in the OLD database that may not strictly be present. Because our sites are not based on QS1, there may be some tables/modules missing that will cause errors to appear while checking migration status. The easiest way to fix this is to simply fill stub schema into the database dump. For most GRAD Drupal sites, there's an example of all the necessary SQL to bridge the database in the `non-qs-schema-fix.sql` file in this repo. This may vary from site to site.
+
+6. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run.
+
+```
+UPDATE variable
+SET `value` = 's:26:"mysite/sites/default/files";'
+WHERE name = 'file_public_path';
+```
+
+7. `git clone` this repo into the modules/custom folder of the site. Install the grad_migration module. This can be done through the website's admin interface or using drush.
 `drush en grad_migration`
 
-6. Install supporting modules. Enabling grad_migration in the last step should enable a series of dependent modules. You MUST also enable the **Quickstart Paragraphs - HTML** submodule (`az_paragraphs_html`). There are a number of other modules that make the migration process easier that can be installed:
+8. Install supporting modules. Enabling grad_migration in the last step should enable a series of dependent modules. You MUST also enable the **Quickstart Paragraphs - HTML** submodule (`az_paragraphs_html`). There are a number of other modules that make the migration process easier that can be installed:
 ```
 rm composer.lock
 composer require drupal/migrate_tools
@@ -45,20 +62,20 @@ composer require drupal/migrate_devel:*
 drush en migrate_devel
 ```
 
-7. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
+9. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
 ```
 drush cset grad_migration.settings migrate_d7_protocol "https"
 drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 ```
 
-8. The site is now ready to begin the migration. Users have to be migrated before anything else:
+10. The site is now ready to begin the migration. Users have to be migrated before anything else:
 ```
 drush migrate-import az_user
 ```
 Once that's complete, then the grad college content can be migrated. The following command can be used to take in everything at once:
 ```
-drush migrate-import --group grad_migration --migrate-debug --continue-on-failure
+drush migrate-import --group grad_migration --migrate-debug
 ```
 
 Or migrations can be run individually:
@@ -66,7 +83,7 @@ Or migrations can be run individually:
 drush migrate-import ua_gc_paragraph --migrate-debug
 ```
 
-The debug flag is of course optional. Using the `--group` flag must be used in conjunction with the `--continue-on-failure` flag, as the migration for redirects fails to import several entries by design.
+The debug flag is of course optional.
 
 ## 2. Instructions for Migrating to a Pantheon-hosted Quickstart 2 Installation
 
@@ -80,7 +97,15 @@ If you're attempting to get this package working against a site hosted in Panthe
 
 4. Inside the project there's file named `non-qs-schema-fix.sql`. The commands in this file should be run against the old database once it's been imported. See step #4 in the instructions above for further context the purpose of this step.
 
-5. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
+5. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run.
+
+```
+UPDATE variable
+SET `value` = 's:26:"mysite/sites/default/files";'
+WHERE name = 'file_public_path';
+```
+
+6. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
 `/code/web/sites/default/files/private/migration_config.json`
 
 The contents of the file should be as follows:
@@ -95,7 +120,7 @@ The contents of the file should be as follows:
 }
 ```
 
-6. `git clone` the Pantheon site to your local machine. Edit the composer.json file as follows:
+7. `git clone` the Pantheon site to your local machine. Edit the composer.json file as follows:
 
  - In the 'repositories' section:
  ```
@@ -111,29 +136,36 @@ The contents of the file should be as follows:
     "drupal/migrate_devel": "*"
   ```
 
-7. Delete composer.lock file.
+8. Delete composer.lock file.
 
-8. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
+9. Additionally, in your local copy of the site's files, add the following snippet to `web/sites/default/settings.php`. This is necessary for the media migration to work correctly.
 
-9. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`, `Migrate Devel`, `Migrate Tools`, and `Quickstart Paragraphs - HTML` modules.
+```
+$settings['media_migration_embed_token_transform_destination_filter_plugin'] = 'media_embed';
+$settings['media_migration_embed_media_reference_method'] = 'uuid';
+```
+
+10. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
+
+11. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`, `Migrate Devel`, `Migrate Tools`, and `Quickstart Paragraphs - HTML` modules.
 
 Alternatively run:
 ```sh
 terminus remote:drush en grad_migration
 ```
 
-10. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+12. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus drush cset grad_migration.settings migrate_d7_protocol "https"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 terminus drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 terminus drush migrate-import az_user
-terminus -- drush migrate-import --group grad_migration --continue-on-failure
+terminus -- drush migrate-import --group grad_migration
 ```
 
 To perform the migration and see debugging output, use this instead:
 ```sh
-terminus -- drush migrate-import --group grad_migration --migrate-debug --continue-on-failure
+terminus -- drush migrate-import --group grad_migration --migrate-debug
 ```
 
 NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so
