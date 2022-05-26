@@ -1,5 +1,5 @@
 id: ua_gc_paragraph
-migration_group: gc_migration
+migration_group: grad_migration
 label: Grad College Text to Paragraphs
 migration_tags:
   - GC Content Migration
@@ -23,26 +23,15 @@ process:
       plugin: default_value
       default_value: 'az_text'
 
-  temp_fixed_body:
+  temp_body:
     -
-      plugin: str_replace
-      regex: true
+      plugin: gc_img_tag_to_embed
       source: body
-      search: '#a href=\"\/[A-z]+\/sites\/default\/files\/(.+)\"#'
-      replace: 'a href="sites/default/files/$1"'
-
-  temp_fixed_body_p2:
-    -
-      plugin: str_replace
-      regex: true
-      source: '@temp_fixed_body'
-      search: '#img(.+)src=\"\/[A-z]+\/sites\/default\/files\/(.+)\"#'
-      replace: 'img$1src="sites/default/files/$2"'
 
   field_az_full_html:
 
     plugin: sub_process
-    source: '@temp_fixed_body_p2'
+    source: '@temp_body'
     process:
       delta: delta
       value: value
@@ -53,7 +42,7 @@ process:
 
   body:
     plugin: sub_process
-    source: '@temp_fixed_body_p2'
+    source: '@temp_body'
     process:
       delta: delta
       value: value
@@ -63,7 +52,7 @@ process:
 
   field_az_text_area:
     plugin: sub_process
-    source: '@temp_fixed_body_p2'
+    source: '@temp_body'
     process:
       delta: delta
       value: value
@@ -80,3 +69,8 @@ dependencies:
     module:
       - az_migration
       - az_paragraphs
+
+migration_dependencies:
+  required:
+    - ua_gc_file
+    - ua_gc_media_image

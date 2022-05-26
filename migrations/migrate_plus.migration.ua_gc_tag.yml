@@ -1,6 +1,6 @@
 id: ua_gc_tag
 label: Grad College Page Tags
-migration_group: gc_migration
+migration_group: grad_migration
 migration_tags:
   - GC Content Migration
   - Taxonomy

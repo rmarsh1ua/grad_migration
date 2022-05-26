@@ -1,6 +1,6 @@
 id: ua_gc_accordion_page
 label: Grad College Accordion Page
-migration_group: gc_migration
+migration_group: grad_migration
 migration_tags:
   - GC Content Migration
   - GC Pages

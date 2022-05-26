@@ -1,5 +1,5 @@
 id: ua_gc_panel_group
-migration_group: gc_migration
+migration_group: grad_migration
 label: Grad College Accordion Panel to Paragraph
 migration_tags:
   - GC Content Migration

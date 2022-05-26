@@ -1,6 +1,6 @@
 id: ua_gc_redirect
 label: Grad College Path Redirect
-migration_group: gc_migration
+migration_group: grad_migration
 migration_tags:
   - Redirects
   - GC Content Migration
