@@ -69,7 +69,17 @@ drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 ```
 
-10. The site is now ready to begin the migration. Users have to be migrated before anything else:
+10. Set the default image import size through the Drupal admin interface. To do this login to the new site as az_admin and navigate to
+```
+Admin > Structure > Media Types > 'Edit' Image > Manage Display
+```
+Alternative, use the URL:
+```
+http://<your site>/admin/structure/media/manage/az_image/display
+```
+Click on the Settings cog next to the 'Image' field and choose the default image size; the best option during import is 'None (original image)'. Click 'Update' on the field, and then 'Save' on the page.
+
+11. The site is now ready to begin the migration. Users have to be migrated before anything else:
 ```
 drush migrate-import az_user
 ```
@@ -154,7 +164,17 @@ Alternatively run:
 terminus remote:drush en grad_migration
 ```
 
-12. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+12. Set the default image import size through the Drupal admin interface. To do this login to the new site as az_admin and navigate to
+```
+Admin > Structure > Media Types > 'Edit' Image > Manage Display
+```
+Alternative, use the URL:
+```
+http://<your site>/admin/structure/media/manage/az_image/display
+```
+Click on the Settings cog next to the 'Image' field and choose the default image size; the best option during import is 'None (original image)'. Click 'Update' on the field, and then 'Save' on the page.
+
+13. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus drush cset grad_migration.settings migrate_d7_protocol "https"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
