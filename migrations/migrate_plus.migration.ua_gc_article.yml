@@ -27,6 +27,11 @@ process:
   changed: changed
   promote: promote
   sticky: sticky
+  field_az_published:
+    plugin: format_date
+    source: created
+    from_format: 'U'
+    to_format: 'Y-m-d'
 
   langcode:
     plugin: static_map
@@ -76,12 +81,6 @@ process:
           plugin: default_value
           default_value: az_standard
 
-  field_az_news_tags:
-    -
-      plugin: migration_lookup
-      source: field_tags
-      migration:
-        - ua_gc_article_tag
 
   field_az_media_image:
     plugin: sub_process
@@ -104,6 +103,4 @@ dependencies:
 
 migration_dependencies:
   required:
-    - az_user
-    - ua_gc_article_tag
     - ua_gc_media_image
