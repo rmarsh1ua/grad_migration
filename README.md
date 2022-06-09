@@ -43,7 +43,7 @@ $settings['media_migration_embed_media_reference_method'] = 'uuid';
 
 5. The AZ migration module assumes that content is being migrated from a D7 QS1 website and accordingly assumes that certain modules are installed which assumes additional database schema in the OLD database that may not strictly be present. Because our sites are not based on QS1, there may be some tables/modules missing that will cause errors to appear while checking migration status. The easiest way to fix this is to simply fill stub schema into the database dump. For most GRAD Drupal sites, there's an example of all the necessary SQL to bridge the database in the `non-qs-schema-fix.sql` file in this repo. This may vary from site to site.
 
-6. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run.
+6. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run. This step can be skipped if the source site's URL has its own subdomain, and isn't managed using sub-folders, e.g. grad.arizona.edu/some_sub_site.
 
 ```
 UPDATE variable
@@ -54,12 +54,11 @@ WHERE name = 'file_public_path';
 7. `git clone` this repo into the modules/custom folder of the site. Install the grad_migration module. This can be done through the website's admin interface or using drush.
 `drush en grad_migration`
 
-8. Install supporting modules. Enabling grad_migration in the last step should enable a series of dependent modules. You MUST also enable the **Quickstart Paragraphs - HTML** submodule (`az_paragraphs_html`). There are a number of other modules that make the migration process easier that can be installed:
+8. Install supporting modules. Enabling grad_migration in the last step should enable a series of dependent modules. You MUST also enable the **Quickstart Paragraphs - HTML** submodule (`az_paragraphs_html`). There are a number of other modules that Grad Migration is dependent on that need to be installed before enabling it. They should be enabled automatically when Grad Migration is enabled.
 ```
 rm composer.lock
 composer require drupal/migrate_tools
 composer require drupal/migrate_devel:*
-drush en migrate_devel
 ```
 
 9. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
@@ -68,6 +67,7 @@ drush cset grad_migration.settings migrate_d7_protocol "https"
 drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 ```
+Note: The migrate_d7_filebasepath variable only requires the base URL if the source site has it's own subdomain.
 
 10. Set the default image import size through the Drupal admin interface. To do this login to the new site as az_admin and navigate to
 ```
@@ -107,7 +107,7 @@ If you're attempting to get this package working against a site hosted in Panthe
 
 4. Inside the project there's file named `non-qs-schema-fix.sql`. The commands in this file should be run against the old database once it's been imported. See step #4 in the instructions above for further context the purpose of this step.
 
-5. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run.
+5. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run. This step can be skipped if the source site's URL has its own subdomain, and isn't managed using sub-folders, e.g. grad.arizona.edu/some_sub_site.
 
 ```
 UPDATE variable
@@ -157,7 +157,7 @@ $settings['media_migration_embed_media_reference_method'] = 'uuid';
 
 10. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
 
-11. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`, `Migrate Devel`, `Migrate Tools`, and `Quickstart Paragraphs - HTML` modules.
+11. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`. Enabling this module should also enable all dependent modules automatically.
 
 Alternatively run:
 ```sh
@@ -182,6 +182,7 @@ terminus drush cset grad_migration.settings migrate_d7_public_path "sites/defaul
 terminus drush migrate-import az_user
 terminus -- drush migrate-import --group grad_migration
 ```
+Note: The migrate_d7_filebasepath variable only requires the base URL if the source site has it's own subdomain.
 
 To perform the migration and see debugging output, use this instead:
 ```sh
@@ -190,4 +191,3 @@ terminus -- drush migrate-import --group grad_migration --migrate-debug
 
 NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so
 ensure that firewall access allows http requests against the URL given.
-
