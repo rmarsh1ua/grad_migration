@@ -1,0 +1,53 @@
+id: ua_gc_article_redirect
+label: UA GC Article Redirect
+migration_group: grad_migration
+migration_tags:
+  - GC Content Migration
+  - GC Pages
+  
+source:
+  plugin: az_node
+  node_type: uagc_article
+  
+process:
+  uid:
+    -
+      plugin: migration_lookup
+      migration: az_user
+      no_stub: true
+      source: node_uid
+    -
+      plugin: default_value
+      default_value: 1
+  
+  redirect_source/path:
+    - 
+      plugin: str_replace
+      regex: true 
+      source: alias
+      search: '#\/articles#'
+      replace: 'articles'       
+
+  redirect_redirect/uri: 
+    - 
+      plugin: str_replace
+      regex: true
+      source: alias
+      search: '#\/articles#'
+      replace: 'internal:/news'    
+
+  redirect_source/query:
+    plugin: d7_redirect_source_query
+    source: ''      
+  language:
+    plugin: default_value
+    default_value: 'en'
+  status_code:
+    plugin: default_value
+    default_value: 301
+    source: status_code
+destination:
+  plugin: entity:redirect
+migration_dependencies:
+  required:
+      - ua_gc_article

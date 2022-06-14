@@ -27,11 +27,12 @@ process:
   changed: changed
   promote: promote
   sticky: sticky
+  
   field_az_published:
     plugin: format_date
     source: created
     from_format: 'U'
-    to_format: 'Y-m-d'
+    to_format: 'Y-m-d'  
 
   langcode:
     plugin: static_map
@@ -64,11 +65,24 @@ process:
       plugin: skip_on_empty
       source: alias
       method: process
+    - 
+      plugin: str_replace
+      regex: true
+      source: alias
+      search: '#articles#'
+      replace: 'news'      
+
 
   field_az_subheading:
     -
       plugin: default_value
       default_value: ''
+      
+  field_az_published:
+    plugin: format_date
+    source: created
+    from_format: 'U'
+    to_format: 'Y-m-d'      
 
   field_az_body:
     -
@@ -80,7 +94,6 @@ process:
         format:
           plugin: default_value
           default_value: az_standard
-
 
   field_az_media_image:
     plugin: sub_process
