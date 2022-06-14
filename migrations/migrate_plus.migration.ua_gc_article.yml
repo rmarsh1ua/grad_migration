@@ -76,13 +76,7 @@ process:
   field_az_subheading:
     -
       plugin: default_value
-      default_value: ''
-      
-  field_az_published:
-    plugin: format_date
-    source: created
-    from_format: 'U'
-    to_format: 'Y-m-d'      
+      default_value: '' 
 
   field_az_body:
     -
