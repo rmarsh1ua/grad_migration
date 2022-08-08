@@ -1,0 +1,77 @@
+id: ua_gc_uroc_paragraph
+migration_group: grad_migration_uroc
+label: UROC Grad College Text to Paragraphs
+migration_tags:
+  - GC Content Migration
+  - GC Paragraphs
+status: true
+
+source:
+  plugin: d7_node
+  key: uroc
+  node_type:
+    - uagc_page
+    - accordion_page
+    - uagc_admin_page
+    - uagc_umbrella_page
+
+process:
+
+  destination_bundle: 'az_text'
+
+  type:
+    -
+      plugin: default_value
+      default_value: 'az_text'
+
+  temp_body:
+    -
+      plugin: gc_img_tag_to_embed
+      source: body
+
+  field_az_full_html:
+
+    plugin: sub_process
+    source: '@temp_body'
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: full_html
+
+
+  body:
+    plugin: sub_process
+    source: '@temp_body'
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: full_html
+
+  field_az_text_area:
+    plugin: sub_process
+    source: '@temp_body'
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+      - az_paragraphs
+
+migration_dependencies:
+  required:
+    - ua_gc_uroc_file
+    - ua_gc_uroc_media_image

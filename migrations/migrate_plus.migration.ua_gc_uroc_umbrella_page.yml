@@ -1,0 +1,92 @@
+id: ua_gc_uroc_umbrella_page
+label: UROC Grad College Umbrella Page
+migration_group: grad_migration_uroc
+migration_tags:
+  - GC Content Migration
+  - GC Pages
+status: true
+
+source:
+  plugin: az_node
+  key: uroc
+  node_type: uagc_umbrella_page
+
+destination:
+  plugin: entity:node
+  bundle: az_flexible_page
+
+process:
+
+  type:
+    plugin: default_value
+    default_value: az_flexible_page
+
+  title: title
+
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+
+  langcode:
+    plugin: static_map
+    bypass: true
+    source: language
+    map:
+      und: en
+
+  uid:
+    -
+      plugin: migration_lookup
+      migration: az_user
+      no_stub: true
+      source: node_uid
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/pathauto:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/alias:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+
+  temp_body_value:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_uroc_paragraph
+
+  temp_files_values:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_uroc_media_paragraph
+
+
+  field_az_main_content:
+    -
+      plugin: paragraphs_mapping_flexible_page
+      source:
+        - '@temp_body_value'
+        - '@temp_files_values'
+
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+
+migration_dependencies:
+  required:
+    - az_user
+    - ua_gc_uroc_paragraph
+    - ua_gc_uroc_media_paragraph

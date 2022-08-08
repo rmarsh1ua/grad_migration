@@ -1,6 +1,6 @@
-id: ua_gc_redirect
-label: Grad College Path Redirect
-migration_group: grad_migration
+id: ua_gc_uroc_redirect
+label: UROC Grad College Path Redirect
+migration_group: grad_migration_uroc
 migration_tags:
   - Redirects
   - GC Content Migration
@@ -8,6 +8,7 @@ status: true
 
 source:
   plugin: d7_path_redirect
+  key: uroc
 process:
   rid: rid
   ## Commenting this out because
@@ -36,13 +37,13 @@ process:
   link_path_processed:
     plugin: az_migrated_path_lookup
     term_migration:
-      - ua_gc_tag
+      - ua_gc_uroc_tag
     node_migration:
-      - ua_gc_page
-      - ua_gc_accordion_page
-      - ua_gc_umbrella_page
-      - ua_gc_article
-      - ua_gc_admin_page
+      - ua_gc_uroc_page
+      - ua_gc_uroc_accordion_page
+      - ua_gc_uroc_umbrella_page
+      - ua_gc_uroc_article
+      - ua_gc_uroc_admin_page
     source: redirect
   redirect_redirect/uri:
     -
@@ -69,11 +70,11 @@ dependencies:
 
 migration_dependencies:
   required:
-      - ua_gc_page
-      - ua_gc_accordion_page
-      - ua_gc_umbrella_page
-      - ua_gc_article
-      - ua_gc_admin_page
-      - ua_gc_tag
+      - ua_gc_uroc_page
+      - ua_gc_uroc_accordion_page
+      - ua_gc_uroc_umbrella_page
+      - ua_gc_uroc_article
+      - ua_gc_uroc_admin_page
+      - ua_gc_uroc_tag
       - az_user
 

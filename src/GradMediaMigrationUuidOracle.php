@@ -8,6 +8,7 @@ use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 use Drupal\media_migration\MediaMigrationUuidOracleInterface;
+use Drupal\media_migration\MediaMigration;
 
 /**
  * Our custom Media Migration's UUID oracle.
@@ -66,8 +67,12 @@ final class GradMediaMigrationUuidOracle implements MediaMigrationUuidOracleInte
      */
     public function getMediaUuid(int $source_id, bool $generate = true): ?string
     {
+      $migate_map  = (\Drupal::config('grad_migration.settings')->get('migrate_d7_filebasepath') == "grad.arizona.edu/uroc") ?
+        "migrate_map_ua_gc_uroc_file" :
+        "migrate_map_ua_gc_file";
+
         $query = $this->database
-          ->select('migrate_map_ua_gc_file', 'map')
+          ->select($migate_map, 'map')
           ->condition('sourceid1', $source_id);
         $query->join('media__field_media_az_image', 'media_az_image', 'media_az_image.field_media_az_image_target_id = map.destid1');
         $query->fields('media_az_image', ['entity_id']);
