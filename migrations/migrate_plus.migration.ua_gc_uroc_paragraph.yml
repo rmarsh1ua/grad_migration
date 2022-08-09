@@ -28,6 +28,7 @@ process:
     -
       plugin: gc_img_tag_to_embed
       source: body
+      site: uroc
 
   field_az_full_html:
 

@@ -9,6 +9,7 @@ status: true
 source:
   plugin: gc_file_migration
   scheme: public
+  site: diversity
   constants:
     source_base_path: 'sites/default/files'
     old_files_path: ''

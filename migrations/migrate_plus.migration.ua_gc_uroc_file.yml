@@ -10,6 +10,7 @@ source:
   plugin: gc_file_migration
   scheme: public
   key: uroc
+  site: uroc
   constants:
     source_base_path: 'sites/default/files'
     old_files_path: ''

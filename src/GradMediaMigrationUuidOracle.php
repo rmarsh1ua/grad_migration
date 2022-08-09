@@ -45,6 +45,9 @@ final class GradMediaMigrationUuidOracle implements MediaMigrationUuidOracleInte
      */
     protected $uuidGenerator;
 
+
+    protected $migate_map;
+
     /**
      * Constructs MediaMigrationUuidOracle.
      *
@@ -55,11 +58,12 @@ final class GradMediaMigrationUuidOracle implements MediaMigrationUuidOracleInte
      * @param \Drupal\Component\Uuid\UuidInterface $uuid_generator
      *   The UUID generator service.
      */
-    public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager, UuidInterface $uuid_generator)
+    public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager, UuidInterface $uuid_generator, string $migate_map)
     {
         $this->database = $database;
         $this->mediaStorage = $entity_type_manager->getStorage('media');
         $this->uuidGenerator = $uuid_generator;
+        $this->migate_map = $migate_map;
     }
 
     /**
@@ -67,12 +71,9 @@ final class GradMediaMigrationUuidOracle implements MediaMigrationUuidOracleInte
      */
     public function getMediaUuid(int $source_id, bool $generate = true): ?string
     {
-      $migate_map  = (\Drupal::config('grad_migration.settings')->get('migrate_d7_filebasepath') == "grad.arizona.edu/uroc") ?
-        "migrate_map_ua_gc_uroc_file" :
-        "migrate_map_ua_gc_file";
 
         $query = $this->database
-          ->select($migate_map, 'map')
+          ->select($this->migate_map, 'map')
           ->condition('sourceid1', $source_id);
         $query->join('media__field_media_az_image', 'media_az_image', 'media_az_image.field_media_az_image_target_id = map.destid1');
         $query->fields('media_az_image', ['entity_id']);

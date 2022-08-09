@@ -58,12 +58,15 @@ class GcImgTagToEmbedFilter extends ImgTagToEmbedFilter
      */
     public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = null)
     {
+        $oracle_name = (isset($configuration['site']) && $configuration['site'] == 'uroc') ?
+          'grad_migration.media_uuid_oracle.uroc' :
+          'grad_migration.media_uuid_oracle.diversity';
         return new static(
           $configuration,
           $plugin_id,
           $plugin_definition,
           $migration,
-          $container->get('grad_migration.media_uuid_oracle'),
+          $container->get($oracle_name),
           $container->get('logger.channel.media_migration'),
           $container->get('plugin.manager.entity_embed.display', ContainerInterface::NULL_ON_INVALID_REFERENCE)
       );

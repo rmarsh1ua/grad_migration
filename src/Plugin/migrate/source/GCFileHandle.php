@@ -51,8 +51,11 @@ class GCFileHandle extends File
      */
     public function prepareRow(Row $row)
     {
+      $d7_filebasepath_var_name = (isset($this->configuration['site']) && $this->configuration['site'] == 'uroc') ?
+        "migrate_d7_uroc_filebasepath" :
+        "migrate_d7_filebasepath";
 
-    // @phpstan-ignore-next-line
+        // @phpstan-ignore-next-line
         $this->publicPath = \Drupal::config('grad_migration.settings')->get('migrate_d7_public_path');
         // @phpstan-ignore-next-line
         $this->privatePath = \Drupal::config('grad_migration.settings')->get('migrate_d7_private_path');
@@ -62,7 +65,7 @@ class GCFileHandle extends File
         // @phpstan-ignore-next-line
         $migrate_d7_protocol = \Drupal::config('grad_migration.settings')->get('migrate_d7_protocol');
         // @phpstan-ignore-next-line
-        $migrate_d7_filebasepath = \Drupal::config('grad_migration.settings')->get('migrate_d7_filebasepath');
+        $migrate_d7_filebasepath = \Drupal::config('grad_migration.settings')->get($d7_filebasepath_var_name);
 
         if ($migrate_d7_filebasepath !== " " && $migrate_d7_filebasepath !== "") {
             $row->setSourceProperty('constants/old_files_path', $migrate_d7_protocol . "://" . $migrate_d7_filebasepath);
@@ -89,4 +92,5 @@ class GCFileHandle extends File
         $ids['fid']['type'] = 'integer';
         return $ids;
     }
+
 }

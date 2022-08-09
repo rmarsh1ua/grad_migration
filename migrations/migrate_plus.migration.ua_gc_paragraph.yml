@@ -27,6 +27,7 @@ process:
     -
       plugin: gc_img_tag_to_embed
       source: body
+      site: diversity
 
   field_az_full_html:
 
