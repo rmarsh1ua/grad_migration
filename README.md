@@ -18,9 +18,21 @@ To use this module follow the steps below:
 2. For the sake of simplicity, get a dump of the existing database and import it into the same database server as the new environment's db server. You ultimately want a "drupal9" database, for the new QS2 site, and the old system's data on the same server.
 
 3. Add a connection for the old database dump. This should go in `/sites/default/settings.php`
+For this UROC/Diversity branch of this project, create a secondary database connection as well, seen below.
 
   ```
   $databases['migrate']['default'] = [
+    'driver' => 'mysql',
+    'namespace' => 'Drupal\Core\Database\Driver\mysql',
+    'database' => 'databasename',
+    'username' => 'databaseusername',
+    'password' => 'databasepassword',
+    'port' => 'databaseport',
+    'host' => 'localhost',
+    'prefix' => '',
+  ];
+
+    $databases['uroc']['default'] = [
     'driver' => 'mysql',
     'namespace' => 'Drupal\Core\Database\Driver\mysql',
     'database' => 'databasename',
@@ -61,11 +73,13 @@ composer require drupal/migrate_tools
 composer require drupal/migrate_devel:*
 ```
 
-9. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
+9. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config. In this UROC/Diversity version of this project, add an additional paramater to define the uroc filebathpath, seen below:
 ```
 drush cset grad_migration.settings migrate_d7_protocol "https"
 drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
+
+drush cset grad_migration.settings migrate_d7_uroc_filebasepath "grad.arizona.edu/uroc"
 ```
 Note: The migrate_d7_filebasepath variable only requires the base URL if the source site has it's own subdomain.
 
