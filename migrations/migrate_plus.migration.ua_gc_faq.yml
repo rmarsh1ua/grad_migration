@@ -1,5 +1,5 @@
-id: ua_gc_main_page
-label: Grad College Main Site Basic Page
+id: ua_gc_faq
+label: Grad College Main Site FAQ Page
 migration_group: grad_migration
 migration_tags:
   - GC Content Migration
@@ -8,7 +8,7 @@ status: true
 
 source:
   plugin: az_node
-  node_type: uagc_main_page
+  node_type: uagc_main_faq
 
 destination:
   plugin: entity:node
@@ -64,20 +64,13 @@ process:
   temp_body_value:
     plugin: migration_lookup
     source: nid
-    migration: ua_gc_paragraph
-
-  temp_files_values:
-    plugin: migration_lookup
-    source: nid
-    migration: ua_gc_media_paragraph
-
+    migration: ua_gc_faq_paragraph
 
   field_az_main_content:
     -
       plugin: paragraphs_mapping_flexible_page
       source:
         - '@temp_body_value'
-        - '@temp_files_values'
 
   field_az_page_category:
     -
@@ -94,6 +87,5 @@ dependencies:
 migration_dependencies:
   required:
     - az_user
-    - ua_gc_paragraph
-    - ua_gc_media_paragraph
+    - ua_gc_faq_paragraph
     - ua_gc_tag

@@ -1,0 +1,166 @@
+id: ua_gc_funding
+label: Grad College Main Site Basic Page
+migration_group: grad_migration
+migration_tags:
+  - GC Content Migration
+  - GC Pages
+status: true
+
+source:
+  plugin: az_node
+  node_type: uagc_main_funding_opportunity
+
+destination:
+  plugin: entity:node
+  bundle: uagc_main_funding_opportunity
+
+process:
+
+  type:
+    plugin: default_value
+    default_value: uagc_main_funding_opportunity
+
+  title: title
+
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+
+  langcode:
+    plugin: static_map
+    bypass: true
+    source: language
+    map:
+      und: en
+
+  uid:
+    -
+      plugin: migration_lookup
+      migration: az_user
+      no_stub: true
+      source: node_uid
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/pathauto:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+    -
+      plugin: default_value
+      default_value: 0
+
+  path/alias:
+    -
+      plugin: skip_on_empty
+      source: alias
+      method: process
+
+  field_funding_number_awarded:
+    plugin: sub_process
+    source: field_funding_number_awarded
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_amount_awarded:
+    plugin: sub_process
+    source: field_funding_amount_awarded
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_application_period:
+    plugin: sub_process
+    source: field_funding_application_period
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_about:
+    plugin: sub_process
+    source: field_funding_about
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_eligibility:
+    plugin: sub_process
+    source: field_funding_eligibility
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_apply_now:
+    plugin: sub_process
+    source: field_funding_apply_now
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_contact:
+    plugin: sub_process
+    source: field_funding_contact
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
+
+  field_funding_process:
+    -
+      plugin: migration_lookup
+      source: field_funding_process
+      migration:
+        - d7_taxonomy_term:uagc_funding_processes
+
+  field_funding_type:
+    -
+      plugin: migration_lookup
+      source: field_funding_type
+      migration:
+        - d7_taxonomy_term:uagc_funding_types
+
+  field_funding_eligible_category:
+    -
+      plugin: migration_lookup
+      source: field_funding_eligible_category
+      migration:
+        - d7_taxonomy_term:uagc_funding_eligibility_categories
+
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+
+migration_dependencies:
+  required:
+    - az_user
+    - d7_taxonomy_vocabulary
+    - d7_taxonomy_term:uagc_funding_processes
+    - d7_taxonomy_term:uagc_funding_types
+    - d7_taxonomy_term:uagc_funding_eligibility_categories

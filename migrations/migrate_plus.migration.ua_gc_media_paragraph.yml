@@ -10,7 +10,7 @@ status: true
 source:
   plugin: d7_node
   node_type:
-    - uagc_page
+    - uagc_main_page
     - uagc_umbrella_page
     - accordion_page
     - uagc_admin_page

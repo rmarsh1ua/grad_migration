@@ -23,3 +23,4 @@ dependencies:
      - az_migration
      - migrate_drupal
      - migrate_tools
+     - grad_migration

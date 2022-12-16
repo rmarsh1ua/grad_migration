@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_funding_eligible_category
+    - node.type.uagc_main_funding_opportunity
+    - taxonomy.vocabulary.uagc_funding_eligibility_categ
+  module:
+    - taxonomy
+    - grad_migration
+  enforced:
+    module:
+      - grad_migration
+
+id: node.uagc_main_funding_opportunity.field_funding_eligible_category
+field_name: field_funding_eligible_category
+entity_type: node
+bundle: uagc_main_funding_opportunity
+label: 'Eligibility Category'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler_settings:
+    sort:
+      field: _none
+    target_bundles:
+      uagc_funding_eligibility_categ: uagc_funding_eligibility_categ
+  handler: 'default:taxonomy_term'
+field_type: entity_reference

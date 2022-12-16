@@ -1,6 +1,6 @@
-id: ua_gc_paragraph
+id: ua_gc_faq_paragraph
 migration_group: grad_migration
-label: Grad College Text to Paragraphs
+label: Grad College FAQs Text to Paragraphs
 migration_tags:
   - GC Content Migration
   - GC Paragraphs
@@ -9,10 +9,7 @@ status: true
 source:
   plugin: d7_node
   node_type:
-    - uagc_main_page
-    - accordion_page
-    - uagc_admin_page
-    - uagc_umbrella_page
+    - uagc_main_faq
 
 process:
 
@@ -26,7 +23,7 @@ process:
   temp_body:
     -
       plugin: gc_img_tag_to_embed
-      source: body
+      source: field_answer
 
   field_az_full_html:
 

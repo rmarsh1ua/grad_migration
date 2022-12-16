@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - grad_migration
+  enforced:
+    module:
+      - grad_migration
+name: 'Funding opportunity'
+type: uagc_main_funding_opportunity
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

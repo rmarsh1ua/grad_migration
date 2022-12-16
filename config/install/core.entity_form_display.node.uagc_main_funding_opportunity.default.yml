@@ -1,0 +1,178 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.uagc_main_funding_opportunity.field_funding_about
+    - field.field.node.uagc_main_funding_opportunity.field_funding_amount_awarded
+    - field.field.node.uagc_main_funding_opportunity.field_funding_application_period
+    - field.field.node.uagc_main_funding_opportunity.field_funding_apply_now
+    - field.field.node.uagc_main_funding_opportunity.field_funding_contact
+    - field.field.node.uagc_main_funding_opportunity.field_funding_eligibility
+    - field.field.node.uagc_main_funding_opportunity.field_funding_number_awarded
+    - field.field.node.uagc_main_funding_opportunity.field_funding_process
+    - field.field.node.uagc_main_funding_opportunity.field_funding_type
+    - field.field.node.uagc_main_funding_opportunity.field_funding_eligible_category
+    - node.type.uagc_main_funding_opportunity
+  module:
+    - grad_migration
+  enforced:
+    module:
+      - grad_migration
+id: node.uagc_main_funding_opportunity.default
+targetEntityType: node
+bundle: uagc_main_funding_opportunity
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_funding_about:
+    weight: 121
+    settings:
+      placeholder: ''
+      rows: 9
+      summary_rows: 3
+      show_summary: false
+    third_party_settings: {  }
+    type: text_textarea_with_summary
+    region: content
+
+  field_funding_amount_awarded:
+    weight: 122
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+
+  field_funding_application_period:
+    weight: 123
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+
+  field_funding_apply_now:
+    weight: 124
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+
+  field_funding_contact:
+    weight: 125
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+
+  field_funding_eligibility:
+    weight: 126
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+
+  field_funding_number_awarded:
+    weight: 127
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+
+  field_funding_process:
+    weight: 128
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: options_select
+    region: content
+
+  field_funding_type:
+    weight: 129
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+
+
+  field_funding_eligible_category:
+    weight: 130
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 15
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 120
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 16
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

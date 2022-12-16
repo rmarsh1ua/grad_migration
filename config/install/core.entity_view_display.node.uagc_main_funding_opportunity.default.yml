@@ -1,0 +1,125 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.uagc_main_funding_opportunity.field_funding_about
+    - field.field.node.uagc_main_funding_opportunity.field_funding_amount_awarded
+    - field.field.node.uagc_main_funding_opportunity.field_funding_application_period
+    - field.field.node.uagc_main_funding_opportunity.field_funding_apply_now
+    - field.field.node.uagc_main_funding_opportunity.field_funding_contact
+    - field.field.node.uagc_main_funding_opportunity.field_funding_eligibility
+    - field.field.node.uagc_main_funding_opportunity.field_funding_number_awarded
+    - field.field.node.uagc_main_funding_opportunity.field_funding_process
+    - field.field.node.uagc_main_funding_opportunity.field_funding_type
+    - field.field.node.uagc_main_funding_opportunity.field_funding_eligible_category
+    - node.type.uagc_main_funding_opportunity
+  module:
+    - grad_migration
+  enforced:
+    module:
+      - grad_migration
+id: node.uagc_main_funding_opportunity.default
+targetEntityType: node
+bundle: uagc_main_funding_opportunity
+mode: default
+content:
+  field_funding_about:
+    weight: 101
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_funding_amount_awarded:
+    weight: 102
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_funding_application_period:
+    weight: 103
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+
+  field_funding_apply_now:
+    weight: 104
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+
+
+  field_funding_contact:
+    weight: 105
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+
+
+  field_funding_eligibility:
+    weight: 106
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+
+
+  field_funding_number_awarded:
+    weight: 107
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+
+
+  field_funding_process:
+    weight: 108
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+
+
+  field_funding_type:
+    weight: 109
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+
+  field_funding_eligible_category:
+    weight: 110
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+
+
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }
