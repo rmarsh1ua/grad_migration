@@ -1,0 +1,34 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_audiences
+    - node.type.frequently_asked_question
+    - taxonomy.vocabulary.uagc_main_audiences
+  module:
+    - grad_migration
+  enforced:
+    module:
+      - grad_migration
+id: node.frequently_asked_question.field_audiences
+field_name: field_audiences
+entity_type: node
+bundle: frequently_asked_question
+label: Audiences
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      uagc_main_audiences: uagc_main_audiences
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
+

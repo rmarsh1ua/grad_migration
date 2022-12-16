@@ -1,4 +1,4 @@
-id: ua_gc_faq
+id: ua_gc_faqs
 label: Grad College Main Site FAQ Page
 migration_group: grad_migration
 migration_tags:
@@ -12,13 +12,13 @@ source:
 
 destination:
   plugin: entity:node
-  bundle: az_flexible_page
+  bundle: frequently_asked_question
 
 process:
 
   type:
     plugin: default_value
-    default_value: az_flexible_page
+    default_value: frequently_asked_question
 
   title: title
 
@@ -60,24 +60,38 @@ process:
       source: alias
       method: process
 
+  field_answer:
+    plugin: sub_process
+    source: field_answer
+    process:
+      delta: delta
+      value: value
+      format:
+        plugin: default_value
+        default_value: az_standard
 
-  temp_body_value:
-    plugin: migration_lookup
-    source: nid
-    migration: ua_gc_faq_paragraph
 
-  field_az_main_content:
+  field_audiences:
     -
-      plugin: paragraphs_mapping_flexible_page
-      source:
-        - '@temp_body_value'
+      plugin: migration_lookup
+      source: field_audiences
+      migration:
+        - d7_taxonomy_term:uagc_main_audiences
 
-  field_az_page_category:
+  field_topic:
+    -
+      plugin: migration_lookup
+      source: field_topics
+      migration:
+        - d7_taxonomy_term:uagc_main_topics
+
+  field_faq_tags:
     -
       plugin: migration_lookup
       source: field_tags
       migration:
-        - ua_gc_tag
+        - d7_taxonomy_term:tags
+
 
 dependencies:
   enforced:
@@ -87,5 +101,7 @@ dependencies:
 migration_dependencies:
   required:
     - az_user
-    - ua_gc_faq_paragraph
-    - ua_gc_tag
+    - d7_taxonomy_vocabulary
+    - d7_taxonomy_term:uagc_main_topics
+    - d7_taxonomy_term:tags
+    - d7_taxonomy_term:uagc_main_audiences
