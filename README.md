@@ -141,37 +141,43 @@ $settings['media_migration_embed_media_reference_method'] = 'uuid';
 
 10. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
 
-11. Through the Drupal's web interface login as an admin user and enable the `GC Quickstart Migration`. Enabling this module should also enable all dependent modules automatically.
+11. Through the Drupal's web interface login as an admin user and enable the `AZ Quickstart Migration` module. Enabling this module should also enable all dependent modules automatically.
 
 Alternatively run:
 ```sh
 terminus remote:drush en grad_migration
 ```
 
-12. Set the default image import size through the Drupal admin interface. To do this login to the new site as az_admin and navigate to
+12. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+```sh
+terminus -- drush migrate-import az_user
+terminus -- drush migrate-import d7_taxonomy_vocabulary
+terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_processes
+terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_types
+terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_eligibility_categories
+terminus -- drush migrate-import d7_taxonomy_term:uagc_main_audiences
+terminus -- drush migrate-import d7_taxonomy_term:uagc_main_topics
+terminus -- drush migrate-import d7_taxonomy_term:tags
 ```
-Admin > Structure > Media Types > 'Edit' Image > Manage Display
-```
-Alternative, use the URL:
-```
-http://<your site>/admin/structure/media/manage/az_image/display
-```
-Click on the Settings cog next to the 'Image' field and choose the default image size; the best option during import is 'None (original image)'. Click 'Update' on the field, and then 'Save' on the page.
+
+13. Go back to the Drupal web interface and enable the `Grad Quickstart Migration` module and agree to enable all module dependencies.
 
 13. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus drush cset grad_migration.settings migrate_d7_protocol "https"
-terminus drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
+terminus drush cset grad_migration.settings migrate_d7_filebasepath "grad.arizona.edu"
 terminus drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
-terminus drush migrate-import az_user
 terminus -- drush migrate-import --group grad_migration
 ```
-Note: The migrate_d7_filebasepath variable only requires the base URL if the source site has it's own subdomain.
+Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following. Sometimes it's helpful to run this migration independently from the rest of the grad migrations.
+```sh
+terminus -- drush mr ua_gc_file
+terminus -- drush migrate-import ua_gc_file
+```
 
 To perform the migration and see debugging output, use this instead:
 ```sh
 terminus -- drush migrate-import --group grad_migration --migrate-debug
 ```
 
-NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so
-ensure that firewall access allows http requests against the URL given.
+NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so ensure that firewall access allows http requests against the URL given.
