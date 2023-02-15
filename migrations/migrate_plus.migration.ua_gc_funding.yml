@@ -38,7 +38,7 @@ process:
   uid:
     -
       plugin: migration_lookup
-      migration: az_user
+      migration: ua_gc_user
       no_stub: true
       source: node_uid
     -
@@ -159,7 +159,7 @@ dependencies:
 
 migration_dependencies:
   required:
-    - az_user
+    - ua_gc_user
     - d7_taxonomy_vocabulary
     - d7_taxonomy_term:uagc_funding_processes
     - d7_taxonomy_term:uagc_funding_types

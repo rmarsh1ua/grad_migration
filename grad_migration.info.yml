@@ -14,4 +14,5 @@ dependencies:
  - az_migration
  - az_paragraphs_html
  - media_migration
+ - grad_content_types
 
