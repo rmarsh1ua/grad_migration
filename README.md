@@ -47,7 +47,6 @@ $settings['media_migration_embed_media_reference_method'] = 'uuid';
 
 7. Complete the base migrations for this module. In the site's root directory run the following commands:
 ```
-drush migrate-import az_user
 drush migrate-import d7_taxonomy_vocabulary
 drush migrate-import d7_taxonomy_term:uagc_funding_processes
 drush migrate-import d7_taxonomy_term:uagc_funding_types
@@ -57,17 +56,20 @@ drush migrate-import d7_taxonomy_term:uagc_main_topics
 drush migrate-import d7_taxonomy_term:tags
 ```
 
-8. `git clone` this repo into the modules/custom folder of the site. Install the grad_migration module. This can be done through the website's admin interface or using drush. Agree to enable any module dependencies.
+8. Install the dependent module for the main Grad Site by using `git clone` into the modules/custom folder of the site. That module is [available here](https://github.com/uazgraduatecollege/grad_content_types). Enable it after it's been installed.
+
+9. `git clone` this repo into the modules/custom folder of the site. Install the grad_migration module. This can be done through the website's admin interface or using drush. Agree to enable any module dependencies.
 `drush en grad_migration`
 
-9. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
+
+10. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
 ```
 drush cset grad_migration.settings migrate_d7_protocol "https"
 drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu"
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 ```
 
-10. The site is now ready to begin the migration of the grad college contnet. The following command can be used to take in everything at once:
+11. The site is now ready to begin the migration of the grad college contnet. The following command can be used to take in everything at once:
 ```
 drush migrate-import --group grad_migration --migrate-debug
 ```
@@ -78,6 +80,13 @@ drush migrate-import ua_gc_paragraph --migrate-debug
 ```
 
 The debug flag is of course optional.
+
+Sometimes the files migration has connection issues and fails unexpectedly. In this case, it's useful to run it independently from the other migrations, but it is also dependent on the users migration. To do this, run the following migrations prior to the `--group` migration command.
+
+```
+drush migrate-import ua_gc_user
+drush migrate-import ua_gc_file
+```
 
 ## 2. Instructions for Migrating to a Pantheon-hosted Quickstart 2 Installation
 
@@ -122,10 +131,16 @@ The contents of the file should be as follows:
     "type": "vcs",
     "url": "git@github.com:uazgraduatecollege/grad_migration.git"
     }
+
+    {
+    "type": "vcs",
+    "url": "git@github.com:uazgraduatecollege/grad_content_types.git"
+    }
   ```
  - And in the 'require' section:
   ```
     "uazgraduatecollege/grad_migration": "dev-main",
+    "uazgraduatecollege/grad_content_types": "dev-main",
     "drupal/migrate_tools": "*",
     "drupal/migrate_devel": "*"
   ```
@@ -150,7 +165,6 @@ terminus remote:drush en grad_migration
 
 12. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
-terminus -- drush migrate-import az_user
 terminus -- drush migrate-import d7_taxonomy_vocabulary
 terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_processes
 terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_types
@@ -160,18 +174,18 @@ terminus -- drush migrate-import d7_taxonomy_term:uagc_main_topics
 terminus -- drush migrate-import d7_taxonomy_term:tags
 ```
 
-13. Go back to the Drupal web interface and enable the `Grad Quickstart Migration` module and agree to enable all module dependencies.
+13. Go back to the Drupal web interface and enable the `Grad Custom Content Types` and `Grad Quickstart Migration` module and agree to enable all module dependencies.
 
-13. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+14. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus drush cset grad_migration.settings migrate_d7_protocol "https"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "grad.arizona.edu"
 terminus drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 terminus -- drush migrate-import --group grad_migration
 ```
-Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following. Sometimes it's helpful to run this migration independently from the rest of the grad migrations.
+Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following. Sometimes it's helpful to run this migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration
 ```sh
-terminus -- drush mr ua_gc_file
+terminus -- drush migrate-import ua_gc_user
 terminus -- drush migrate-import ua_gc_file
 ```
 
