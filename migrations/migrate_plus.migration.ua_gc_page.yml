@@ -47,10 +47,6 @@ process:
 
   path/pathauto:
     -
-      plugin: skip_on_empty
-      source: alias
-      method: process
-    -
       plugin: default_value
       default_value: 0
 
@@ -59,7 +55,6 @@ process:
       plugin: skip_on_empty
       source: alias
       method: process
-
 
   temp_body_value:
     plugin: migration_lookup

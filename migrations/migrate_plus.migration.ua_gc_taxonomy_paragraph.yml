@@ -1,0 +1,58 @@
+id: ua_gc_taxonomy_paragraph
+label: Grad College Main Site Audience Taxonomy to Paragraph
+migration_group: grad_migration
+migration_tags:
+  - GC Content Migration
+  - GC Pages
+status: true
+
+source:
+  plugin: d7_taxonomy_term
+  bundle:
+    - uagc_main_audiences
+    - uagc_main_topics
+
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+
+process:
+
+  destination_bundle: 'az_text'
+
+  type:
+    -
+      plugin: default_value
+      default_value: 'az_text'
+
+  temp_body:
+    -
+      plugin: gc_img_tag_to_embed
+      source: description
+
+
+  field_az_full_html/value: description
+  field_az_full_html/format:
+    - plugin: default_value
+      default_value: full_html
+
+
+  body/value: description
+  body/format:
+    - plugin: default_value
+      default_value: full_html
+
+  field_az_text_area/value: description
+  field_az_text_area/format:
+    - plugin: default_value
+      default_value: az_standard
+
+
+dependencies:
+  enforced:
+    module:
+      - az_migration
+      - az_paragraphs
+
+migration_dependencies:
+  required:
+    - d7_taxonomy_term:uagc_main_audiences

@@ -1,5 +1,5 @@
-id: ua_gc_admin_page
-label: Grad College Admin Page
+id: ua_gc_taxonomy_page
+label: Grad College Main Site Taxonomy Page
 migration_group: grad_migration
 migration_tags:
   - GC Content Migration
@@ -7,8 +7,10 @@ migration_tags:
 status: true
 
 source:
-  plugin: az_node
-  node_type: uagc_admin_page
+  plugin: d7_taxonomy_term
+  bundle:
+    - uagc_main_audiences
+    - uagc_main_topics
 
 destination:
   plugin: entity:node
@@ -20,7 +22,7 @@ process:
     plugin: default_value
     default_value: az_flexible_page
 
-  title: title
+  title: name
 
   status: status
   created: created
@@ -37,35 +39,18 @@ process:
 
   uid:
     -
-      plugin: migration_lookup
-      migration: ua_gc_user
-      no_stub: true
-      source: node_uid
-    -
       plugin: default_value
-      default_value: 0
+      default_value: 1
 
   path/pathauto:
     -
       plugin: default_value
-      default_value: 0
-
-  path/alias:
-    -
-      plugin: skip_on_empty
-      source: alias
-      method: process
-
+      default_value: 1
 
   temp_body_value:
     plugin: migration_lookup
-    source: nid
-    migration: ua_gc_paragraph
-
-  temp_files_values:
-    plugin: migration_lookup
-    source: nid
-    migration: ua_gc_media_paragraph
+    source: tid
+    migration: ua_gc_taxonomy_paragraph
 
 
   field_az_main_content:
@@ -73,7 +58,13 @@ process:
       plugin: paragraphs_mapping_flexible_page
       source:
         - '@temp_body_value'
-        - '@temp_files_values'
+
+  field_az_page_category:
+    -
+      plugin: migration_lookup
+      source: field_tags
+      migration:
+        - ua_gc_tag
 
 dependencies:
   enforced:
@@ -82,6 +73,5 @@ dependencies:
 
 migration_dependencies:
   required:
-    - ua_gc_user
-    - ua_gc_paragraph
-    - ua_gc_media_paragraph
+    - ua_gc_taxonomy_paragraph
+    - ua_gc_tag
