@@ -181,12 +181,23 @@ terminus -- drush migrate-import d7_taxonomy_term:tags
 terminus drush cset grad_migration.settings migrate_d7_protocol "https"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "grad.arizona.edu"
 terminus drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
-terminus -- drush migrate-import --group grad_migration
 ```
-Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following. Sometimes it's helpful to run this migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration
+
+15. Import users and then files:
 ```sh
 terminus -- drush migrate-import ua_gc_user
 terminus -- drush migrate-import ua_gc_file
+```
+Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following:
+```
+terminus remote:drush mr uagc_file
+```
+
+Sometimes it's helpful to run this migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration
+
+16. Finally, import the main grad_migrations:
+```
+terminus -- drush migrate-import --group grad_migration
 ```
 
 To perform the migration and see debugging output, use this instead:
