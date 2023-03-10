@@ -186,6 +186,17 @@ terminus -- drush mr ua_gc_file
 terminus -- drush migrate-import ua_gc_file
 terminus -- drush migrate-import --group grad_migration
 ```
+Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following:
+```
+terminus remote:drush mr uagc_file
+```
+
+Sometimes it's helpful to run this migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration
+
+16. Finally, import the main grad_migrations:
+```
+terminus -- drush migrate-import --group grad_migration
+```
 
 To perform the migration and see debugging output, use this instead:
 ```sh
