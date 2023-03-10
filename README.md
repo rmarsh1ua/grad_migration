@@ -69,24 +69,21 @@ drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 ```
 
-11. The site is now ready to begin the migration of the grad college contnet. The following command can be used to take in everything at once:
-```
-drush migrate-import --group grad_migration --migrate-debug
+11. Now it's time to run the migrations. Sometimes the "files" migration chokes for no discernable reason. Because of this run that migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration. The "files" migration is reverted and then run a second time because it does fail on some files more often than not.
+
+```sh
+terminus -- drush migrate-import ua_gc_user
+terminus -- drush migrate-import ua_gc_file
+terminus -- drush mr ua_gc_file
+terminus -- drush migrate-import ua_gc_file
+terminus -- drush migrate-import --group grad_migration
 ```
 
-Or migrations can be run individually, e.g.:
-```
-drush migrate-import ua_gc_paragraph --migrate-debug
+To perform the migration and see debugging output, use this instead:
+```sh
+terminus -- drush migrate-import --group grad_migration --migrate-debug
 ```
 
-The debug flag is of course optional.
-
-Sometimes the files migration has connection issues and fails unexpectedly. In this case, it's useful to run it independently from the other migrations, but it is also dependent on the users migration. To do this, run the following migrations prior to the `--group` migration command.
-
-```
-drush migrate-import ua_gc_user
-drush migrate-import ua_gc_file
-```
 
 ## 2. Instructions for Migrating to a Pantheon-hosted Quickstart 2 Installation
 
@@ -100,15 +97,7 @@ If you're attempting to get this package working against a site hosted in Panthe
 
 4. Inside the project there's file named `non-qs-schema-fix.sql`. The commands in this file should be run against the old database once it's been imported. See step #4 in the instructions above for further context the purpose of this step.
 
-5. In order to enable the media migration to work correctly, an additional change needs to manually made to the old database instance. Note that the string length and site name need to be configured before being run. This step can be skipped if the source site's URL has its own subdomain, and isn't managed using sub-folders, e.g. grad.arizona.edu/some_sub_site.
-
-```
-UPDATE variable
-SET `value` = 's:26:"mysite/sites/default/files";'
-WHERE name = 'file_public_path';
-```
-
-6. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
+5. Use the 'connection info' panel again to create a SFTP connection to the site. Create a new file at the following location on the remote server:
 `/code/web/sites/default/files/private/migration_config.json`
 
 The contents of the file should be as follows:
@@ -123,7 +112,7 @@ The contents of the file should be as follows:
 }
 ```
 
-7. `git clone` the Pantheon site to your local machine. Edit the composer.json file as follows:
+6. `git clone` the Pantheon site to your local machine. Edit the composer.json file as follows:
 
  - In the 'repositories' section:
  ```
@@ -139,31 +128,31 @@ The contents of the file should be as follows:
   ```
  - And in the 'require' section:
   ```
-    "uazgraduatecollege/grad_migration": "dev-main",
+    "uazgraduatecollege/grad_migration": "dev-site_grd",
     "uazgraduatecollege/grad_content_types": "dev-main",
     "drupal/migrate_tools": "*",
     "drupal/migrate_devel": "*"
   ```
 
-8. Delete composer.lock file.
+7. Delete composer.lock file.
 
-9. Additionally, in your local copy of the site's files, add the following snippet to `web/sites/default/settings.php`. This is necessary for the media migration to work correctly.
+8. Additionally, in your local copy of the site's files, add the following snippet to `web/sites/default/settings.php`. This is necessary for the media migration to work correctly.
 
 ```
 $settings['media_migration_embed_token_transform_destination_filter_plugin'] = 'media_embed';
 $settings['media_migration_embed_media_reference_method'] = 'uuid';
 ```
 
-10. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
+9. `git add`, `git commit` and `git push origin master` these files back to the Pantheon site. It should rebuild the site automatically, and install the packages.
 
-11. Through the Drupal's web interface login as an admin user and enable the `AZ Quickstart Migration` module. Enabling this module should also enable all dependent modules automatically.
+10. Through the Drupal's web interface login as an admin user and enable the `AZ Quickstart Migration` module. Enabling this module should also enable all dependent modules automatically.
 
 Alternatively run:
 ```sh
-terminus remote:drush en grad_migration
+terminus remote:drush en az_migration
 ```
 
-12. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+11. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus -- drush migrate-import d7_taxonomy_vocabulary
 terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_processes
@@ -174,19 +163,28 @@ terminus -- drush migrate-import d7_taxonomy_term:uagc_main_topics
 terminus -- drush migrate-import d7_taxonomy_term:tags
 ```
 
-13. Go back to the Drupal web interface and enable the `Grad Custom Content Types` and `Grad Quickstart Migration` module and agree to enable all module dependencies.
+12. Go back to the Drupal web interface and enable the `Grad Custom Content Types` and `Grad Quickstart Migration` module and agree to enable all module dependencies.
 
-14. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
+Alternatively run:
+```sh
+terminus remote:drush en grad_migration
+```
+
+13. From the command line, whilst working from the diretory of the cloned project, enter the following commands:
 ```sh
 terminus drush cset grad_migration.settings migrate_d7_protocol "https"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "grad.arizona.edu"
 terminus drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
-terminus -- drush migrate-import --group grad_migration
 ```
-Note: Sometimes the files migration chokes for no discernable reason. If that happens do the following. Sometimes it's helpful to run this migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration
+
+14. Now it's time to run the migrations. Sometimes the "files" migration chokes for no discernable reason. Because of this run that migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration. The "files" migration is reverted and then run a second time because it does fail on some files more often than not.
+
 ```sh
 terminus -- drush migrate-import ua_gc_user
 terminus -- drush migrate-import ua_gc_file
+terminus -- drush mr ua_gc_file
+terminus -- drush migrate-import ua_gc_file
+terminus -- drush migrate-import --group grad_migration
 ```
 
 To perform the migration and see debugging output, use this instead:
@@ -194,4 +192,4 @@ To perform the migration and see debugging output, use this instead:
 terminus -- drush migrate-import --group grad_migration --migrate-debug
 ```
 
-NOTE: Configure the variables specified above with the correct values. The migration requires downloading files from the current site as specified so ensure that firewall access allows http requests against the URL given.
+NOTE: The migration requires downloading files from the current site as specified so ensure that firewall access allows http requests against the URL given.
