@@ -56,7 +56,7 @@ drush migrate-import d7_taxonomy_term:uagc_main_topics
 drush migrate-import d7_taxonomy_term:tags
 ```
 
-8. Install the dependent module for the main Grad Site by using `git clone` into the modules/custom folder of the site. That module is [available here](https://github.com/uazgraduatecollege/grad_content_types). Enable it after it's been installed.
+8. Install the dependent module for the main Grad Site by using `git clone` into the modules/custom folder of the site. That module is [available here](https://github.com/uazgraduatecollege/azgrad_drupal_content_types). Enable it after it's been installed.
 
 9. `git clone` this repo into the modules/custom folder of the site. Install the grad_migration module. This can be done through the website's admin interface or using drush. Agree to enable any module dependencies.
 `drush en grad_migration`
@@ -123,13 +123,13 @@ The contents of the file should be as follows:
 
     {
     "type": "vcs",
-    "url": "git@github.com:uazgraduatecollege/grad_content_types.git"
+    "url": "git@github.com:uazgraduatecollege/azgrad_drupal_content_types.git"
     }
   ```
  - And in the 'require' section:
   ```
     "uazgraduatecollege/grad_migration": "dev-site_grd",
-    "uazgraduatecollege/grad_content_types": "dev-main",
+    "uazgraduatecollege/azgrad_drupal_content_types": "dev-main",
     "drupal/migrate_tools": "*",
     "drupal/migrate_devel": "*"
   ```
