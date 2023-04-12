@@ -50,3 +50,6 @@ CREATE TABLE `term_data` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+UPDATE taxonomy_vocabulary
+SET machine_name = 'uagc_funding_eligibility_cats'
+WHERE vid = 3;

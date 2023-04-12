@@ -50,7 +50,7 @@ $settings['media_migration_embed_media_reference_method'] = 'uuid';
 drush migrate-import d7_taxonomy_vocabulary
 drush migrate-import d7_taxonomy_term:uagc_funding_processes
 drush migrate-import d7_taxonomy_term:uagc_funding_types
-drush migrate-import d7_taxonomy_term:uagc_funding_eligibility_categories
+drush migrate-import d7_taxonomy_term:uagc_funding_eligibility_cats
 drush migrate-import d7_taxonomy_term:uagc_main_audiences
 drush migrate-import d7_taxonomy_term:uagc_main_topics
 drush migrate-import d7_taxonomy_term:tags
@@ -72,16 +72,29 @@ drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 11. Now it's time to run the migrations. Sometimes the "files" migration chokes for no discernable reason. Because of this run that migration independently from the rest of the grad migrations. It's also dependent on the ua_gc_user miagration. The "files" migration is reverted and then run a second time because it does fail on some files more often than not.
 
 ```sh
-terminus -- drush migrate-import ua_gc_user
-terminus -- drush migrate-import ua_gc_file
-terminus -- drush mr ua_gc_file
-terminus -- drush migrate-import ua_gc_file
-terminus -- drush migrate-import --group grad_migration
+drush migrate-import ua_gc_user
+drush migrate-import ua_gc_file
+drush mr ua_gc_file
+drush migrate-import ua_gc_file
+drush migrate-import --group grad_migration
 ```
 
 To perform the migration and see debugging output, use this instead:
 ```sh
-terminus -- drush migrate-import --group grad_migration --migrate-debug
+drush migrate-import --group grad_migration --migrate-debug
+```
+
+12. Post migration the main site requires additional cleanup to remove taxonomy entries that are errantly created. The last 'real' taxonomy term that's inserted is specified in the query below and can be used as a marker to remove the unwanted entries. Run these queries against the newly created drupal9 database.
+
+```sh
+DELETE FROM drupal9.taxonomy_term_data WHERE revision_id >
+(SELECT revision_id FROM drupal9.taxonomy_term_field_data WHERE vid = 'az_news_tags' AND name = 'title ix')
+;
+
+DELETE FROM drupal9.taxonomy_term_field_data WHERE revision_id >
+(SELECT revision_id FROM drupal9.taxonomy_term_field_data WHERE vid = 'az_news_tags' AND name = 'title ix')
+;
+
 ```
 
 
@@ -157,7 +170,7 @@ terminus remote:drush en az_migration
 terminus -- drush migrate-import d7_taxonomy_vocabulary
 terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_processes
 terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_types
-terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_eligibility_categories
+terminus -- drush migrate-import d7_taxonomy_term:uagc_funding_eligibility_cats
 terminus -- drush migrate-import d7_taxonomy_term:uagc_main_audiences
 terminus -- drush migrate-import d7_taxonomy_term:uagc_main_topics
 terminus -- drush migrate-import d7_taxonomy_term:tags
@@ -201,6 +214,19 @@ terminus -- drush migrate-import --group grad_migration
 To perform the migration and see debugging output, use this instead:
 ```sh
 terminus -- drush migrate-import --group grad_migration --migrate-debug
+```
+
+17. Post migration the main site requires additional cleanup to remove taxonomy entries that are errantly created. The last 'real' taxonomy term that's inserted is specified in the query below and can be used as a marker to remove the unwanted entries. Run these queries against the newly created drupal9 database.
+
+```sh
+DELETE FROM drupal9.taxonomy_term_data WHERE revision_id >
+(SELECT revision_id FROM drupal9.taxonomy_term_field_data WHERE vid = 'az_news_tags' AND name = 'title ix')
+;
+
+DELETE FROM drupal9.taxonomy_term_field_data WHERE revision_id >
+(SELECT revision_id FROM drupal9.taxonomy_term_field_data WHERE vid = 'az_news_tags' AND name = 'title ix')
+;
+
 ```
 
 NOTE: The migration requires downloading files from the current site as specified so ensure that firewall access allows http requests against the URL given.

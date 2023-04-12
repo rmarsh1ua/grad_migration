@@ -145,7 +145,7 @@ process:
       plugin: migration_lookup
       source: field_funding_eligible_category
       migration:
-        - d7_taxonomy_term:uagc_funding_eligibility_categories
+        - d7_taxonomy_term:uagc_funding_eligibility_cats
 
 
 dependencies:
@@ -159,4 +159,4 @@ migration_dependencies:
     - d7_taxonomy_vocabulary
     - d7_taxonomy_term:uagc_funding_processes
     - d7_taxonomy_term:uagc_funding_types
-    - d7_taxonomy_term:uagc_funding_eligibility_categories
+    - d7_taxonomy_term:uagc_funding_eligibility_cats

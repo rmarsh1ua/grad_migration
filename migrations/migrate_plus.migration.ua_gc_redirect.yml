@@ -69,11 +69,11 @@ dependencies:
 
 migration_dependencies:
   required:
-      - ua_gc_page
       - ua_gc_accordion_page
+      - ua_gc_main_page
       - ua_gc_umbrella_page
       - ua_gc_article
-      - ua_admin_page
+      - ua_gc_admin_page
       - ua_gc_tag
       - ua_gc_user
 
