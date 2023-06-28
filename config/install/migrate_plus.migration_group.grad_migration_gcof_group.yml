@@ -5,7 +5,7 @@ id: grad_migration_gcof
 label: GC Quickstart Migrations
 
 # More information about the group.
-description: Test configuration for gc migrations.
+description: Migration group for Grad Center Office of Fellowships
 
 # Short description of the type of source, e.g. "Drupal 6" or "WordPress".
 source_type: Drupal 7 Site
