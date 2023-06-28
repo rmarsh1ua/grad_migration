@@ -1,6 +1,6 @@
-id: ua_gc_article
-label: Grad College Articles
-migration_group: grad_migration
+id: ua_gc_gcof_umbrella_page
+label: Grad College Umbrella Page
+migration_group: grad_migration_gcof
 migration_tags:
   - GC Content Migration
   - GC Pages
@@ -8,17 +8,18 @@ status: true
 
 source:
   plugin: az_node
-  node_type: uagc_article
+  node_type: uagc_umbrella_page
+  key: gcof
 
 destination:
   plugin: entity:node
-  bundle: az_news
+  bundle: az_flexible_page
 
 process:
 
   type:
     plugin: default_value
-    default_value: az_news
+    default_value: az_flexible_page
 
   title: title
 
@@ -60,50 +61,32 @@ process:
       source: alias
       method: process
 
-  field_az_subheading:
+  temp_body_value:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_gcof_paragraph
+
+  temp_files_values:
+    plugin: migration_lookup
+    source: nid
+    migration: ua_gc_gcof_media_paragraph
+
+
+  field_az_main_content:
     -
-      plugin: default_value
-      default_value: ''
-
-  field_az_body:
-    -
-      plugin: sub_process
-      source: body
-      process:
-        delta: delta
-        value: value
-        format:
-          plugin: default_value
-          default_value: az_standard
-
-  field_az_news_tags:
-    -
-      plugin: migration_lookup
-      source: field_tags
-      migration:
-        - ua_gc_article_tag
-
-  field_az_media_image:
-    plugin: sub_process
-    source: field_image
-    process:
-      target_id:
-      -
-        plugin: migration_lookup
-        source: fid
-        migration:
-          - ua_gc_media_image
-
+      plugin: paragraphs_mapping_flexible_page
+      source:
+        - '@temp_body_value'
+        - '@temp_files_values'
 
 
 dependencies:
   enforced:
     module:
       - az_migration
-      - az_news
 
 migration_dependencies:
   required:
     - az_user
-    - ua_gc_article_tag
-    - ua_gc_media_image
+    - ua_gc_gcof_paragraph
+    - ua_gc_gcof_media_paragraph

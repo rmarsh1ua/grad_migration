@@ -1,6 +1,6 @@
-id: ua_gc_media_image
-migration_group: grad_migration
-label: Grad College Files to Image Media Migration
+id: ua_gc_gcof_media_document
+migration_group: grad_migration_gcof
+label: Grad College Files to Document Media Migration
 migration_tags:
   - GC Content Migration
   - GC Media
@@ -9,42 +9,31 @@ status: true
 source:
   plugin: d7_file_by_type
   scheme: public
+  key: gcof
   type:
-    - image/jpeg
-    - image/png
-    - image/gif
-    - image/jpg
+    - application/pdf
+    - application/msword
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - application/vnd.ms-excel
+    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - application/vnd.ms-powerpoint
+    - application/vnd.openxmlformats-officedocument.presentationml.presentation
 
-  get_alt: true
-  get_title: true
   constants:
     source_base_path: 'sites/default/files'
 
 process:
-  bundle: az_image
+  bundle: az_document
 
-  field_media_az_image/target_id:
+  field_media_az_document/target_id:
     -
       plugin: migration_lookup
-      migration: ua_gc_file
+      migration: ua_gc_gcof_file
       source: fid
     -
       plugin: skip_on_empty
       method: row
-  thumbnail/target_id:
-    plugin: migration_lookup
-    migration: ua_gc_file
-    source: fid
-  field_media_az_image/alt:
-    plugin: concat
-    source:
-      - alt
-      - alt_singular
-  field_media_az_image/title:
-    plugin: concat
-    source:
-      - title
-      - title_singular
+
   status: status
   created: timestamp
   changed: timestamp
@@ -61,7 +50,8 @@ process:
 
 destination:
   plugin: 'entity:media'
-  default_bundle: az_image
+  default_bundle: az_document
+
 
 dependencies:
   enforced:
@@ -70,5 +60,5 @@ dependencies:
 
 migration_dependencies:
   required:
-    - ua_gc_file
+    - ua_gc_gcof_file
     - az_user

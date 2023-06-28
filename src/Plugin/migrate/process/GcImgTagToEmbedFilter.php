@@ -30,8 +30,6 @@ use Drupal\media_migration\Plugin\migrate\process\ImgTagToEmbedFilter;
  */
 class GcImgTagToEmbedFilter extends ImgTagToEmbedFilter
 {
-
-
     /**
      * Constructs a new GcImgTagToEmbedFilter object.
      *
@@ -85,13 +83,14 @@ class GcImgTagToEmbedFilter extends ImgTagToEmbedFilter
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MigrationInterface $migration = NULL) {
+    MigrationInterface $migration = NULL
+  ) {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $migration,
-      $container->get('media_migration.media_uuid_oracle'),
+      $container->get('grad_migration.media_uuid_oracle.gcof'),
       $container->get('logger.channel.media_migration'),
       $container->get('plugin.manager.entity_embed.display', ContainerInterface::NULL_ON_INVALID_REFERENCE),
       $container->get('migrate.lookup'),

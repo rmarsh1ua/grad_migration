@@ -64,7 +64,7 @@ composer require drupal/migrate_devel:*
 9. Update the migration configuration settings by using the following console commands. This will allow for the migration framework to correctly process file downloads handled through a migration script. Update these settings to reflect the site being migrated. Answer 'yes' to adding these to the grad_migration.settings.config.
 ```
 drush cset grad_migration.settings migrate_d7_protocol "https"
-drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
+drush cset grad_migration.settings migrate_d7_filebasepath "gradcenter.arizona.edu/gcof"
 drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
 ```
 Note: The migrate_d7_filebasepath variable only requires the base URL if the source site has it's own subdomain.

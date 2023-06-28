@@ -19,12 +19,13 @@ services:
       - '@logger.channel.media_migration'
       - '@module_handler'
 
-  grad_migration.media_uuid_oracle:
+  grad_migration.media_uuid_oracle.gcof:
     class: Drupal\grad_migration\GradMediaMigrationUuidOracle
     arguments:
       - '@database'
       - '@entity_type.manager'
       - '@uuid'
+      - 'migrate_map_ua_gc_gcof_file'
 
   plugin.manager.file_dealer:
     class: Drupal\media_migration\FileDealerManager

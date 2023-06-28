@@ -1,5 +1,5 @@
-id: ua_gc_media_paragraph
-migration_group: grad_migration
+id: ua_gc_gcof_media_paragraph
+migration_group: grad_migration_gcof
 label: Grad College File Attachments to Paragraph
 migration_tags:
   - GC Content Migration
@@ -9,6 +9,7 @@ status: true
 
 source:
   plugin: d7_node
+  key: gcof
   node_type:
     - uagc_page
     - uagc_umbrella_page
@@ -30,7 +31,7 @@ process:
           plugin: migration_lookup
           source: fid
           migration:
-            - ua_gc_media_document
+            - ua_gc_gcof_media_document
 
   field_az_text_area/value:
     -
@@ -51,4 +52,4 @@ dependencies:
 
 migration_dependencies:
   required:
-    - ua_gc_media_document
+    - ua_gc_gcof_media_document

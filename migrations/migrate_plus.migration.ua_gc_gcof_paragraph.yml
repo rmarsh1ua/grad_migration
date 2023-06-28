@@ -1,5 +1,5 @@
-id: ua_gc_paragraph
-migration_group: grad_migration
+id: ua_gc_gcof_paragraph
+migration_group: grad_migration_gcof
 label: Grad College Text to Paragraphs
 migration_tags:
   - GC Content Migration
@@ -8,6 +8,7 @@ status: true
 
 source:
   plugin: d7_node
+  key: gcof
   node_type:
     - uagc_page
     - accordion_page
@@ -72,5 +73,5 @@ dependencies:
 
 migration_dependencies:
   required:
-    - ua_gc_file
-    - ua_gc_media_image
+    - ua_gc_gcof_file
+    - ua_gc_gcof_media_image

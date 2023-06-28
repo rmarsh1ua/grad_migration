@@ -1,6 +1,6 @@
-id: ua_gc_umbrella_page
-label: Grad College Umbrella Page
-migration_group: grad_migration
+id: ua_gc_gcof_admin_page
+label: Grad College Admin Page
+migration_group: grad_migration_gcof
 migration_tags:
   - GC Content Migration
   - GC Pages
@@ -8,7 +8,8 @@ status: true
 
 source:
   plugin: az_node
-  node_type: uagc_umbrella_page
+  node_type: uagc_admin_page
+  key: gcof
 
 destination:
   plugin: entity:node
@@ -60,15 +61,16 @@ process:
       source: alias
       method: process
 
+
   temp_body_value:
     plugin: migration_lookup
     source: nid
-    migration: ua_gc_paragraph
+    migration: ua_gc_gcof_paragraph
 
   temp_files_values:
     plugin: migration_lookup
     source: nid
-    migration: ua_gc_media_paragraph
+    migration: ua_gc_gcof_media_paragraph
 
 
   field_az_main_content:
@@ -78,7 +80,6 @@ process:
         - '@temp_body_value'
         - '@temp_files_values'
 
-
 dependencies:
   enforced:
     module:
@@ -87,5 +88,5 @@ dependencies:
 migration_dependencies:
   required:
     - az_user
-    - ua_gc_paragraph
-    - ua_gc_media_paragraph
+    - ua_gc_gcof_paragraph
+    - ua_gc_gcof_media_paragraph

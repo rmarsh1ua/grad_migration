@@ -1,6 +1,6 @@
-id: ua_gc_file
+id: ua_gc_gcof_file
 label: Grad College Files
-migration_group: grad_migration
+migration_group: grad_migration_gcof
 migration_tags:
   - GC Content Migration
   - GC Media
@@ -9,6 +9,8 @@ status: true
 source:
   plugin: gc_file_migration
   scheme: public
+  key: gcof
+  site: gcof
   constants:
     source_base_path: 'sites/default/files'
     old_files_path: ''

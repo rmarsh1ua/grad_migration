@@ -1,6 +1,6 @@
-id: ua_gc_redirect
+id: ua_gc_gcof_redirect
 label: Grad College Path Redirect
-migration_group: grad_migration
+migration_group: grad_migration_gcof
 migration_tags:
   - Redirects
   - GC Content Migration
@@ -8,6 +8,7 @@ status: true
 
 source:
   plugin: d7_path_redirect
+  key: gcof
 process:
   rid: rid
   ## Commenting this out because
@@ -36,12 +37,12 @@ process:
   link_path_processed:
     plugin: az_migrated_path_lookup
     term_migration:
-      - ua_gc_tag
+      - ua_gc_gcof_tag
     node_migration:
-      - ua_gc_page
-      - ua_gc_accordion_page
-      - ua_gc_umbrella_page
-      - ua_gc_article
+      - ua_gc_gcof_page
+      - ua_gc_gcof_accordion_page
+      - ua_gc_gcof_umbrella_page
+      - ua_gc_gcof_article
       - ua_admin_page
     source: redirect
   redirect_redirect/uri:
@@ -69,11 +70,11 @@ dependencies:
 
 migration_dependencies:
   required:
-      - ua_gc_page
-      - ua_gc_accordion_page
-      - ua_gc_umbrella_page
-      - ua_gc_article
+      - ua_gc_gcof_page
+      - ua_gc_gcof_accordion_page
+      - ua_gc_gcof_umbrella_page
+      - ua_gc_gcof_article
       - ua_admin_page
-      - ua_gc_tag
+      - ua_gc_gcof_tag
       - az_user
 

@@ -1,6 +1,6 @@
-id: ua_gc_article_tag
-label: Grad College Article Tags
-migration_group: grad_migration
+id: ua_gc_gcof_tag
+label: Grad College Page Tags
+migration_group: grad_migration_gcof
 migration_tags:
   - GC Content Migration
   - Taxonomy
@@ -9,15 +9,16 @@ status: true
 source:
   plugin: d7_taxonomy_term
   bundle: tags
+  key: gcof
 
 destination:
   plugin: entity:taxonomy_term
-  default_bundle: az_news_tags
+  default_bundle: az_page_categories
 
 process:
   vid:
     plugin: default_value
-    default_value: az_news_tags
+    default_value: az_page_categories
 
   name: name
   weight: weight
@@ -43,4 +44,3 @@ dependencies:
   enforced:
     module:
       - az_migration
-
