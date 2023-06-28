@@ -1,5 +1,5 @@
 # The machine name of the group, by which it is referenced in individual migrations.
-id: grad_migration
+id: grad_migration_gcof
 
 # A human-friendly label for the group.
 label: GC Quickstart Migrations
