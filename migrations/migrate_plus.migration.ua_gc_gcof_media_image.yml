@@ -53,7 +53,7 @@ process:
   uid:
     -
       plugin: migration_lookup
-      migration: az_user
+      migration: ua_gc_gcof_user
       no_stub: true
       source: uid
     -
@@ -72,4 +72,4 @@ dependencies:
 migration_dependencies:
   required:
     - ua_gc_gcof_file
-    - az_user
+    - ua_gc_gcof_user

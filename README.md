@@ -185,7 +185,7 @@ terminus drush cset grad_migration.settings migrate_d7_protocol "https"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "myhost.grad.arizona.edu/mygraddrupalsite"
 terminus drush cset grad_migration.settings migrate_d7_filebasepath "gradcenter.arizona.edu/gcof"
 terminus drush cset grad_migration.settings migrate_d7_public_path "sites/default/files"
-terminus drush migrate-import az_user
+terminus drush migrate:import ua_gc_gcof_user
 terminus -- drush migrate-import --group grad_migration_gcof
 ```
 Note: The migrate_d7_filebasepath variable only requires the base URL if the source site has it's own subdomain.
