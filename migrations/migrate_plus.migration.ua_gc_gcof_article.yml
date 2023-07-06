@@ -49,24 +49,16 @@ process:
       default_value: 0
 
   path/pathauto:
-    -
-      plugin: skip_on_empty
-      source: alias
-      method: process
-    -
-      plugin: default_value
-      default_value: 0
+    plugin: default_value
+    default_value: 0
 
   path/alias:
     -
-      plugin: skip_on_empty
+      plugin: str_replace
+      regex: true
       source: alias
-      method: process
-    -
-      plugin: concat
-      source:
-        - constants/gcof_prefix
-        - alias
+      search: '/^/'
+      replace: '/gcof'
 
   field_az_subheading:
     -
