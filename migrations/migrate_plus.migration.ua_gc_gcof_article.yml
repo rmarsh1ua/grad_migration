@@ -31,6 +31,12 @@ process:
   promote: promote
   sticky: sticky
 
+  field_az_published:
+    plugin: format_date
+    source: created
+    from_format: 'U'
+    to_format: 'Y-m-d'
+
   langcode:
     plugin: static_map
     bypass: true
