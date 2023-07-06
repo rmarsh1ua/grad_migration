@@ -51,9 +51,6 @@ process:
       plugin: skip_on_empty
       source: alias
       method: process
-    -
-      plugin: default_value
-      default_value: 0
 
   path/alias:
     -
