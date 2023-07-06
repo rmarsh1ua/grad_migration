@@ -67,7 +67,7 @@ final class GradMediaMigrationUuidOracle implements MediaMigrationUuidOracleInte
     public function getMediaUuid(int $source_id, bool $generate = true): ?string
     {
         $query = $this->database
-          ->select('migrate_map_ua_gc_file', 'map')
+          ->select('migrate_map_ua_gc_gcof_file', 'map')
           ->condition('sourceid1', $source_id);
         $query->join('media__field_media_az_image', 'media_az_image', 'media_az_image.field_media_az_image_target_id = map.destid1');
         $query->fields('media_az_image', ['entity_id']);

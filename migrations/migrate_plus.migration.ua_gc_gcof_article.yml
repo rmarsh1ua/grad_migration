@@ -10,6 +10,8 @@ source:
   plugin: az_node
   node_type: uagc_article
   key: gcof
+  constants:
+    gcof_prefix: /gcof
 
 destination:
   plugin: entity:node
@@ -51,12 +53,20 @@ process:
       plugin: skip_on_empty
       source: alias
       method: process
+    -
+      plugin: default_value
+      default_value: 0
 
   path/alias:
     -
       plugin: skip_on_empty
       source: alias
       method: process
+    -
+      plugin: concat
+      source:
+        - constants/gcof_prefix
+        - alias
 
   field_az_subheading:
     -
@@ -91,8 +101,6 @@ process:
         source: fid
         migration:
           - ua_gc_gcof_media_image
-
-
 
 dependencies:
   enforced:
