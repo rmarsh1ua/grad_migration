@@ -3,6 +3,6 @@
   "description": "This is a custom migration module for the UA Grad College.",
   "type": "drupal-custom-module",
   "require": {
-      "drupal/core": "^9.2.13"
+      "drupal/core": "^9 ||^10"
   }
 }
