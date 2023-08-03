@@ -1,6 +1,6 @@
 name: GC Quickstart Migration
 description: 'Provides gc migrations for the site.'
-core_version_requirement: ^8.8 || ^9
+core_version_requirement: ^9 || ^10
 type: module
 package: 'The University of Arizona - Experimental'
 dependencies:
